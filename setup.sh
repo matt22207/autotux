@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# wget -O - https://raw.githubusercontent.com/matt22207/autotux/main/setup.sh | bash
+
 sudo apt update
 sudo apt upgrade
 sudo apt full-upgrade
