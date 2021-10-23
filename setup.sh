@@ -6,7 +6,7 @@ sudo apt update
 sudo apt upgrade
 sudo apt full-upgrade
 
-sudo apt install gnome-tweaks neofetch barrier
+sudo apt install gnome-tweaks neofetch barrier git
 
 # https://flatpak.org/setup/Ubuntu/
 sudo apt install flatpak 
