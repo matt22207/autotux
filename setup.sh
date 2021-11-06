@@ -12,9 +12,9 @@ sudo apt install gnome-tweaks neofetch git openssh-server
 sudo apt install flatpak 
 sudo apt install gnome-software-plugin-flatpak
       
-flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
-flatpak install flathub org.gnome.Extensions
+sudo flatpak install flathub org.gnome.Extensions
 
 # latest barrier is in snap. doesn't support Wayland yet
 sudo snap install barrier
