@@ -17,6 +17,6 @@ flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flat
 flatpak install flathub org.gnome.Extensions
 
 # latest barrier is in snap. doesn't support Wayland yet
-snap install barrier
+sudo snap install barrier
 
 ## PAUSE HERE TO REBOOT
