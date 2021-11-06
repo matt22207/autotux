@@ -6,7 +6,7 @@ sudo apt update
 sudo apt upgrade
 sudo apt full-upgrade
 
-sudo apt install gnome-tweaks neofetch git
+sudo apt install gnome-tweaks neofetch git openssh-server
 
 # https://flatpak.org/setup/Ubuntu/
 sudo apt install flatpak 
