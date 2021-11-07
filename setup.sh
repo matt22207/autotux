@@ -6,7 +6,10 @@ sudo apt update
 sudo apt upgrade
 sudo apt full-upgrade
 
-sudo apt install gnome-tweaks neofetch git openssh-server net-tools
+sudo apt install gnome-tweaks neofetch git openssh-server net-tools htop
+
+# https://cockpit-project.org/running.html#ubuntu
+sudo apt install cockpit cockpit-machines cockpit-pcp
 
 # https://flatpak.org/setup/Ubuntu/
 sudo apt install flatpak 
