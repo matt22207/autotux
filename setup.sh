@@ -22,6 +22,9 @@ sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub
 
 sudo flatpak install flathub org.gnome.Extensions
 
+# Setup libvirt for Single GPU Passhthrough - https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/4)-Configuring-of-Libvirt
+sudo apt install qemu-kvm libvirt-clients libvirt-daemon-system bridge-utils virt-manager ovmf
+
 # latest barrier is in snap. doesn't support Wayland yet
 sudo snap install barrier
 
