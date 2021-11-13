@@ -6,7 +6,10 @@ sudo apt update
 sudo apt upgrade
 sudo apt full-upgrade
 
-sudo apt install gnome-tweaks neofetch git openssh-server net-tools htop
+sudo apt install gnome-tweaks neofetch git openssh-server net-tools htop 
+
+# KVM thin provisioning tools, virt-sparsify - https://www.certdepot.net/kvm-thin-provisioning-tip/
+sudo apt install libguestfs-tools
 
 # https://cockpit-project.org/running.html#ubuntu
 sudo apt install cockpit cockpit-machines cockpit-pcp
