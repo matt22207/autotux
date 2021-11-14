@@ -4,7 +4,7 @@
 
 sudo apt update
 sudo apt upgrade
-sudo apt full-upgrade
+#sudo apt full-upgrade
 
 sudo apt install gnome-tweaks neofetch git openssh-server net-tools htop 
 
