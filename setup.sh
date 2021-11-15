@@ -29,3 +29,6 @@ sudo apt install qemu-kvm libvirt-clients libvirt-daemon-system bridge-utils vir
 sudo snap install barrier
 
 ## PAUSE HERE TO REBOOT
+
+# TODO : Grub font size
+# https://vietlq.github.io/2019/09/22/make-grub-font-size-bigger/
