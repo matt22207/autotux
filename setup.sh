@@ -2,6 +2,9 @@
 
 # wget -O - https://raw.githubusercontent.com/matt22207/autotux/main/setup.sh | bash
 
+# https://itsfoss.com/fedora-dark-mode/
+gsettings set org.gnome.desktop.interface gtk-theme Adwaita-dark
+
 sudo apt update
 sudo apt upgrade
 #sudo apt full-upgrade
