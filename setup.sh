@@ -4,6 +4,7 @@
 
 # https://itsfoss.com/fedora-dark-mode/
 gsettings set org.gnome.desktop.interface gtk-theme Adwaita-dark
+gsettings set org.gnome.desktop.interface gtk-theme Yaru-dark
 
 sudo apt update
 sudo apt upgrade
