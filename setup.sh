@@ -5,6 +5,7 @@
 BACKUP_PATH=~/.setup_backups
 GRUB_CFG_PATH=/etc/default/grub
 VFIO_CFG_PATH=/etc/dracut.conf.d/vfio.conf
+LIBVIRT_CFG_PATH=/etc/libvirt/libvirtd.conf
 APT_PACKAGES=""
 
 # create a directory for any backups
@@ -79,8 +80,20 @@ addKernelParam "udev.log_priority=3"
 echo "Checking if GRUB_UPDATE_REQUIRED == 1 : ${GRUB_UPDATE_REQUIRED}"
 
 if  [ ${GRUB_UPDATE_REQUIRED} -eq 1 ]; then
-    echo "Applying the kernel parameter changes..."
+    echo "Applying the kernel parameter changes... *** RESTART NEEDED ***"
     sudo update-grub
 else
     echo "No changes to kernel parameters..."
 fi
+
+function uncommmentLineFromFile() {
+    if sudo cat "$2" | grep "#$1"; then
+        echo "uncommenting : [ $1 ] from $2"
+        sudo sed -i "s/^#$1/$1/" "$2"
+    fi
+}
+
+cp ${LIBVIRT_CFG_PATH} "${BACKUP_PATH}/libvirtd.conf_$(date +%Y%m%d_%H%M%S)"
+
+uncommmentLineFromFile 'unix_sock_group = "libvirt"' "$LIBVIRT_CFG_PATH"
+uncommmentLineFromFile 'unix_sock_rw_perms = "0770"' "$LIBVIRT_CFG_PATH"
