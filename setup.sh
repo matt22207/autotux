@@ -86,6 +86,8 @@ else
     echo "No changes to kernel parameters..."
 fi
 
+# Step 4 : https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/4)-Configuring-of-Libvirt
+
 function uncommmentLineFromFile() {
     if sudo cat "$2" | grep "#$1"; then
         echo "uncommenting : [ $1 ] from $2"
@@ -93,7 +95,23 @@ function uncommmentLineFromFile() {
     fi
 }
 
+function appendLineToFile() {
+    if ! sudo cat "$2" | grep "$1"; then
+        echo "appending : [ $1 ] to $2"
+        echo "$1" >> "$2"
+    fi
+}
+
 cp ${LIBVIRT_CFG_PATH} "${BACKUP_PATH}/libvirtd.conf_$(date +%Y%m%d_%H%M%S)"
 
 uncommmentLineFromFile 'unix_sock_group = "libvirt"' "$LIBVIRT_CFG_PATH"
 uncommmentLineFromFile 'unix_sock_rw_perms = "0770"' "$LIBVIRT_CFG_PATH"
+
+appendLineToFile 'log_filters="1:qemu"' "$LIBVIRT_CFG_PATH"
+appendLineToFile 'log_outputs="1:file:/var/log/libvirt/libvirtd.log"' "$LIBVIRT_CFG_PATH"
+
+sudo usermod -a -G libvirt $(whoami)
+sudo systemctl start libvirtd
+sudo systemctl enable libvirtd
+
+
