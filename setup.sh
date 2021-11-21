@@ -92,7 +92,7 @@ fi
 function appendLineToFile() {
     if ! sudo cat "$2" | grep "$1"; then
         echo "appending : [ $1 ] to $2"
-        sudo echo "$1" >> "$2"
+        echo "$1" | sudo tee -a $2
     fi
 }
 
@@ -119,6 +119,6 @@ sudo usermod -a -G libvirt $(whoami)
 sudo systemctl start libvirtd
 sudo systemctl enable libvirtd
 
-cp ${QEMU_CFG_PATH} "${BACKUP_PATH}/qemu.conf_$(date +%Y%m%d_%H%M%S)"
+sudo cp ${QEMU_CFG_PATH} "${BACKUP_PATH}/qemu.conf_$(date +%Y%m%d_%H%M%S)"
 replaceLineInFile '#user = "root"' "user = '$(whoami)'" "$QEMU_CFG_PATH"
 replaceLineInFile '#group = "root"' "group = '$(whoami)'" "$QEMU_CFG_PATH"
