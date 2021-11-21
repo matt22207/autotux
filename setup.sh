@@ -6,6 +6,7 @@ BACKUP_PATH=~/.setup_backups
 GRUB_CFG_PATH=/etc/default/grub
 VFIO_CFG_PATH=/etc/dracut.conf.d/vfio.conf
 LIBVIRT_CFG_PATH=/etc/libvirt/libvirtd.conf
+QEMU_CFG_PATH=/etc/libvirt/qemu.conf
 APT_PACKAGES=""
 
 # create a directory for any backups
@@ -88,18 +89,22 @@ fi
 
 # Step 4 : https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/4)-Configuring-of-Libvirt
 
-function uncommmentLineFromFile() {
-    if sudo cat "$2" | grep "#$1"; then
-        echo "uncommenting : [ $1 ] from $2"
-        sudo sed -i "s/^#$1/$1/" "$2"
-    fi
-}
-
 function appendLineToFile() {
     if ! sudo cat "$2" | grep "$1"; then
         echo "appending : [ $1 ] to $2"
         sudo echo "$1" >> "$2"
     fi
+}
+
+function replaceLineInFile() {
+    if sudo cat "$3" | grep "$1"; then
+        echo "replacing : [ $1 ] with [ $2 ] in $3"
+        sudo sed -i "s/^$1/$2/" "$3"
+    fi
+}
+
+function uncommmentLineFromFile() {
+    replaceLineInFile "#$1" "$1" "$2"
 }
 
 cp ${LIBVIRT_CFG_PATH} "${BACKUP_PATH}/libvirtd.conf_$(date +%Y%m%d_%H%M%S)"
@@ -114,4 +119,6 @@ sudo usermod -a -G libvirt $(whoami)
 sudo systemctl start libvirtd
 sudo systemctl enable libvirtd
 
-
+cp ${QEMU_CFG_PATH} "${BACKUP_PATH}/qemu.conf_$(date +%Y%m%d_%H%M%S)"
+replaceLineInFile '#user = "root"' "user = '$(whoami)'" "$QEMU_CFG_PATH"
+replaceLineInFile '#group = "root"' "group = '$(whoami)'" "$QEMU_CFG_PATH"
