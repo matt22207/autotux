@@ -15,7 +15,7 @@ mkdir ${BACKUP_PATH}
 gsettings set org.gnome.desktop.interface gtk-theme Adwaita-dark
 gsettings set org.gnome.desktop.interface gtk-theme Yaru-dark
 
-sudo apt update -y && sudo apt upgrade -y
+sudo apt update -y && sudo apt upgrade -y && sudo apt autoremove -y
 #sudo apt full-upgrade
 
 APT_PACKAGES+="gnome-tweaks neofetch git openssh-server net-tools htop timeshift flatpak "
@@ -35,9 +35,9 @@ APT_PACKAGES+="qemu-kvm libvirt-clients libvirt-daemon-system bridge-utils virt-
 sudo apt install -y $APT_PACKAGES
 
 
-sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo -y
-sudo flatpak update -y
-sudo flatpak install flathub org.gnome.Extensions -y
+sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+sudo flatpak update
+sudo flatpak install flathub org.gnome.Extensions
 
 sudo snap refresh
 # latest barrier is in snap. doesn't support Wayland yet
