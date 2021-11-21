@@ -98,7 +98,7 @@ function uncommmentLineFromFile() {
 function appendLineToFile() {
     if ! sudo cat "$2" | grep "$1"; then
         echo "appending : [ $1 ] to $2"
-        echo "$1" >> "$2"
+        sudo echo "$1" >> "$2"
     fi
 }
 
