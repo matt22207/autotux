@@ -90,16 +90,20 @@ fi
 # Step 4 : https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/4)-Configuring-of-Libvirt
 
 function appendLineToFile() {
+    echo "appending : [ $1 ] to $2"
     if ! sudo cat "$2" | grep "$1"; then
-        echo "appending : [ $1 ] to $2"
         echo "$1" | sudo tee -a $2
+    else 
+        echo "-- No changes needed"
     fi
 }
 
 function replaceLineInFile() {
-    if sudo cat "$3" | grep "$1"; then
-        echo "replacing : [ $1 ] with [ $2 ] in $3"
+    echo "replacing : [ $1 ] with [ $2 ] in $3"
+    if sudo cat "$3" | grep "$1"; then    
         sudo sed -i "s/^$1/$2/" "$3"
+    else 
+        echo "-- No changes needed"
     fi
 }
 
@@ -123,11 +127,13 @@ sudo cp ${QEMU_CFG_PATH} "${BACKUP_PATH}/qemu.conf_$(date +%Y%m%d_%H%M%S)"
 replaceLineInFile '#user = "root"' "user = '$(whoami)'" "$QEMU_CFG_PATH"
 replaceLineInFile '#group = "root"' "group = '$(whoami)'" "$QEMU_CFG_PATH"
 
+echo "restarting libvirtd"
 sudo systemctl restart libvirtd
 sudo usermod -a -G kvm,libvirt $(whoami)
 
 # Step 7: https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/6)-Preparation-and-placing-of-ROM-file
 
+echo "setting up vgabios rom"
 sudo mkdir /usr/share/vgabios
 sudo wget https://raw.githubusercontent.com/matt22207/autotux/main/TU104.rom -O /usr/share/vgabios/TU104.rom
 sudo chmod -R 660 /usr/share/vgabios/TU104.rom
