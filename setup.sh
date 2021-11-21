@@ -34,9 +34,9 @@ APT_PACKAGES+="qemu-kvm libvirt-clients libvirt-daemon-system bridge-utils virt-
 sudo apt install -y $APT_PACKAGES
 
 
-sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-sudo flatpak update
-sudo flatpak install flathub org.gnome.Extensions
+sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo -y
+sudo flatpak update -y
+sudo flatpak install flathub org.gnome.Extensions -y
 
 sudo snap refresh
 # latest barrier is in snap. doesn't support Wayland yet
