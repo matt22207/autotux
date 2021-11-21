@@ -125,3 +125,10 @@ replaceLineInFile '#group = "root"' "group = '$(whoami)'" "$QEMU_CFG_PATH"
 
 sudo systemctl restart libvirtd
 sudo usermod -a -G kvm,libvirt $(whoami)
+
+# Step 7: https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/6)-Preparation-and-placing-of-ROM-file
+
+sudo mkdir /usr/share/vgabios
+sudo wget https://raw.githubusercontent.com/matt22207/autotux/main/TU104.rom -O /usr/share/vgabios/TU104.rom
+sudo chmod -R 660 /usr/share/vgabios/TU104.rom
+sudo chown $(whoami):$(whoami) /usr/share/vgabios/TU104.rom
