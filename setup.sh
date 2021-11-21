@@ -122,3 +122,6 @@ sudo systemctl enable libvirtd
 sudo cp ${QEMU_CFG_PATH} "${BACKUP_PATH}/qemu.conf_$(date +%Y%m%d_%H%M%S)"
 replaceLineInFile '#user = "root"' "user = '$(whoami)'" "$QEMU_CFG_PATH"
 replaceLineInFile '#group = "root"' "group = '$(whoami)'" "$QEMU_CFG_PATH"
+
+sudo systemctl restart libvirtd
+sudo usermod -a -G kvm,libvirt $(whoami)
