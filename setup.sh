@@ -72,7 +72,11 @@ addKernelParam "apparmor=1"
 addKernelParam "security=apparmor"
 addKernelParam "udev.log_priority=3"
 
+echo "Checking if GRUB_UPDATE_REQUIRED == 1 : ${GRUB_UPDATE_REQUIRED}"
+
 if  [ ${GRUB_UPDATE_REQUIRED} -eq 1 ]; then
     echo "Applying the kernel parameter changes..."
     sudo update-grub
+else
+    echo "No changes to kernel parameters..."
 fi
