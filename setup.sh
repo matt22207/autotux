@@ -19,7 +19,7 @@ gsettings set org.gnome.desktop.interface gtk-theme Yaru-dark
 sudo apt update -y && sudo apt upgrade -y && sudo apt autoremove -y
 #sudo apt full-upgrade
 
-APT_PACKAGES+="gnome-tweaks neofetch git openssh-server net-tools htop timeshift flatpak "
+APT_PACKAGES+="gnome-tweaks neofetch git openssh-server net-tools htop timeshift flatpak firefox chrome-gnome-shell python3-pip screen "
 
 # KVM thin provisioning tools, virt-sparsify - https://www.certdepot.net/kvm-thin-provisioning-tip/
 APT_PACKAGES+="libguestfs-tools "
@@ -31,10 +31,12 @@ APT_PACKAGES+="cockpit cockpit-machines cockpit-pcp "
 APT_PACKAGES+="flatpak gnome-software-plugin-flatpak "
 
 # Setup libvirt for Single GPU Passhthrough - https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/4)-Configuring-of-Libvirt
-APT_PACKAGES+="qemu-kvm libvirt-clients libvirt-daemon-system bridge-utils virt-manager ovmf "
+APT_PACKAGES+="qemu-kvm libvirt-clients libvirt-daemon-system bridge-utils virt-manager ovmf driverctl "
 
 sudo apt install -y $APT_PACKAGES
 
+wget "https://launchpad.net/veracrypt/trunk/1.24-update7/+download/veracrypt-1.24-Update7-Ubuntu-21.10-amd64.deb" -O /tmp/veracrypt-1.24-Update7-Ubuntu-21.10-amd64.deb
+sudo apt install /tmp/veracrypt-1.24-Update7-Ubuntu-21.10-amd64.deb
 
 sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 sudo flatpak update
@@ -43,6 +45,12 @@ sudo flatpak install flathub org.gnome.Extensions
 sudo snap refresh
 # latest barrier is in snap. doesn't support Wayland yet
 sudo snap install barrier
+sudo snap remove firefox
+
+# install latest lutris - https://lutris.net/downloads
+sudo add-apt-repository ppa:lutris-team/lutris
+sudo apt update
+sudo apt install lutris
 
 ## PAUSE HERE TO REBOOT
 
@@ -72,8 +80,9 @@ echo "Adding kernel parameters..."
 echo "Adding kernel parameters to enable IOMMU on Intel/AMD CPUs..."
 
 # https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/2)-Editing-GRUB
+# enable Intel VT-D   ;# using "intel_iommu=on,igfx_off" iGPU gets no iommu group...
 addKernelParam "iommu=pt"
-addKernelParam "intel_iommu=on" # enable Intel VT-D   ;# using "intel_iommu=on,igfx_off" iGPU gets no iommu group...
+addKernelParam "intel_iommu=on" 
 addKernelParam "apparmor=1"
 addKernelParam "security=apparmor"
 addKernelParam "udev.log_priority=3"
