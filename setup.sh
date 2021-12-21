@@ -39,8 +39,8 @@ wget "https://launchpad.net/veracrypt/trunk/1.24-update7/+download/veracrypt-1.2
 sudo apt install /tmp/veracrypt-1.24-Update7-Ubuntu-21.10-amd64.deb
 
 sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-sudo flatpak update
-sudo flatpak install flathub org.gnome.Extensions
+sudo flatpak update -y
+sudo flatpak install -y flathub org.gnome.Extensions
 
 sudo snap refresh
 # latest barrier is in snap. doesn't support Wayland yet
@@ -86,6 +86,8 @@ addKernelParam "intel_iommu=on"
 addKernelParam "apparmor=1"
 addKernelParam "security=apparmor"
 addKernelParam "udev.log_priority=3"
+
+# TODO: remove quiet from grub
 
 echo "Checking if GRUB_UPDATE_REQUIRED == 1 : ${GRUB_UPDATE_REQUIRED}"
 
