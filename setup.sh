@@ -44,6 +44,9 @@ sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub
 sudo flatpak update -y
 sudo flatpak install -y flathub org.gnome.Extensions
 
+# https://itsfoss.com/flatseal/
+sudo flatpak install -y flathub com.github.tchx84.Flatseal
+
 sudo snap refresh
 # latest barrier is in snap. doesn't support Wayland yet
 sudo snap install barrier
