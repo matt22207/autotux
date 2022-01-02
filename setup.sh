@@ -20,7 +20,7 @@ sudo apt update -y && sudo apt upgrade -y && sudo apt autoremove -y
 #sudo apt full-upgrade
 
 APT_PACKAGES+="gnome-tweaks neofetch git openssh-server net-tools htop timeshift flatpak firefox chrome-gnome-shell python3-pip screen systat "
-APT_PACKAGES+="nvidia-driver-470 nvidia-utils-470 nvidia-settings "
+APT_PACKAGES+="nvidia-driver-470 nvidia-utils-470 nvidia-settings mangohud goverlay "
 # TODO: remove xserver-xorg-video-nouveau
 
 # KVM thin provisioning tools, virt-sparsify - https://www.certdepot.net/kvm-thin-provisioning-tip/
