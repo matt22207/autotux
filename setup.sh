@@ -55,7 +55,7 @@ ${PACKAGE_MANAGER_BIN} ${PACKAGE_MANAGER_UPDATE_CMD}
 
 PACKAGES+="gnome-tweaks neofetch git net-tools htop timeshift flatpak firefox chrome-gnome-shell screen nvidia-settings mangohud goverlay "
 if  [ "${OS_ID_LIKE}" = "arch" ]; then
-    PACKAGES+="sysstat python-pip guestfs-tools "
+    PACKAGES+="sysstat python-pip "
     # KVM thin provisioning tools, virt-sparsify - https://www.certdepot.net/kvm-thin-provisioning-tip/
     # TODO SINCE BROKEN: PACKAGES+="guestfs-tools "
 else
