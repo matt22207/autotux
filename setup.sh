@@ -158,7 +158,6 @@ if  [ ${GRUB_UPDATE_REQUIRED} -eq 1 ]; then
 else
     echo "No changes to kernel parameters..."
 fi
-exit 0
 
 # Step 4 : https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/4)-Configuring-of-Libvirt
 
@@ -185,6 +184,7 @@ function uncommmentLineFromFile() {
 }
 
 cp ${LIBVIRT_CFG_PATH} "${BACKUP_PATH}/libvirtd.conf_$(date +%Y%m%d_%H%M%S)"
+exit 0
 
 uncommmentLineFromFile 'unix_sock_group = "libvirt"' "$LIBVIRT_CFG_PATH"
 uncommmentLineFromFile 'unix_sock_rw_perms = "0770"' "$LIBVIRT_CFG_PATH"
