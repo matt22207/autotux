@@ -61,15 +61,15 @@ else
     PACKAGES+="nvidia-driver-470 nvidia-utils-470 "
 fi
 
+# KVM thin provisioning tools, virt-sparsify - https://www.certdepot.net/kvm-thin-provisioning-tip/
+PACKAGES+="libguestfs-tools "
 # TODO: remove xserver-xorg-video-nouveau
+
 echo
 echo "Running: ${PACKAGE_MANAGER_BIN} ${PACKAGE_MANAGER_INSTALL_CMD} ${PACKAGES}"
 echo
 ${PACKAGE_MANAGER_BIN} ${PACKAGE_MANAGER_INSTALL_CMD} ${PACKAGES}
 exit 0
-
-# KVM thin provisioning tools, virt-sparsify - https://www.certdepot.net/kvm-thin-provisioning-tip/
-PACKAGES+="libguestfs-tools "
 
 # https://cockpit-project.org/running.html#ubuntu
 PACKAGES+="cockpit cockpit-machines cockpit-pcp "
