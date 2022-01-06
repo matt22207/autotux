@@ -56,16 +56,26 @@ ${PACKAGE_MANAGER_BIN} ${PACKAGE_MANAGER_UPDATE_CMD}
 PACKAGES+="gnome-tweaks neofetch git net-tools htop timeshift flatpak firefox chrome-gnome-shell screen nvidia-settings mangohud goverlay "
 if  [ "${OS_ID_LIKE}" = "arch" ]; then
     PACKAGES+="sysstat python-pip "
+    # Setup libvirt for Single GPU Passhthrough - https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/4)-Configuring-of-Libvirt
+    PACKAGES+="virt-manager qemu vde2 dnsmasq bridge-utils ovmf iptables-nft nftables "
+
     # KVM thin provisioning tools, virt-sparsify - https://www.certdepot.net/kvm-thin-provisioning-tip/
     # TODO SINCE BROKEN: PACKAGES+="guestfs-tools "
 else
+    # https://flatpak.org/setup/Ubuntu/
+    PACKAGES+="flatpak gnome-software-plugin-flatpak "
     PACKAGES+="systat python3-pip openssh-server "
     PACKAGES+="nvidia-driver-470 nvidia-utils-470 "
     # KVM thin provisioning tools, virt-sparsify - https://www.certdepot.net/kvm-thin-provisioning-tip/
     PACKAGES+="libguestfs-tools "
+    # Setup libvirt for Single GPU Passhthrough - https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/4)-Configuring-of-Libvirt
+    PACKAGES+="qemu-kvm libvirt-clients libvirt-daemon-system bridge-utils virt-manager ovmf driverctl "
 fi
 
 # TODO: remove xserver-xorg-video-nouveau
+
+# https://cockpit-project.org/running.html#ubuntu
+PACKAGES+="cockpit cockpit-machines cockpit-pcp "
 
 echo
 echo "Running: ${PACKAGE_MANAGER_BIN} ${PACKAGE_MANAGER_INSTALL_CMD} ${PACKAGES}"
@@ -73,16 +83,8 @@ echo
 ${PACKAGE_MANAGER_BIN} ${PACKAGE_MANAGER_INSTALL_CMD} ${PACKAGES}
 exit 0
 
-# https://cockpit-project.org/running.html#ubuntu
-PACKAGES+="cockpit cockpit-machines cockpit-pcp "
 
-# https://flatpak.org/setup/Ubuntu/
-PACKAGES+="flatpak gnome-software-plugin-flatpak "
-
-# Setup libvirt for Single GPU Passhthrough - https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/4)-Configuring-of-Libvirt
-PACKAGES+="qemu-kvm libvirt-clients libvirt-daemon-system bridge-utils virt-manager ovmf driverctl "
-
-sudo apt install -y $PACKAGES
+#sudo apt install -y $PACKAGES
 
 wget "https://launchpad.net/veracrypt/trunk/1.24-update7/+download/veracrypt-1.24-Update7-Ubuntu-21.10-amd64.deb" -O /tmp/veracrypt-1.24-Update7-Ubuntu-21.10-amd64.deb
 sudo apt install /tmp/veracrypt-1.24-Update7-Ubuntu-21.10-amd64.deb
