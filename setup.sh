@@ -55,7 +55,7 @@ ${PACKAGE_MANAGER_BIN} ${PACKAGE_MANAGER_UPDATE_CMD}
 
 PACKAGES+="gnome-tweaks neofetch git net-tools htop timeshift flatpak firefox chrome-gnome-shell screen nvidia-settings mangohud goverlay "
 if  [ "${OS_ID_LIKE}" = "arch" ]; then
-    PACKAGES+="sysstat python-pip veracrypt "
+    PACKAGES+="sysstat python-pip veracrypt lutris protonup-qt "
     # Setup libvirt for Single GPU Passhthrough - https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/4)-Configuring-of-Libvirt
     PACKAGES+="virt-manager qemu vde2 dnsmasq bridge-utils ovmf iptables-nft nftables "
 
@@ -86,7 +86,6 @@ ${PACKAGE_MANAGER_BIN} ${PACKAGE_MANAGER_INSTALL_CMD} ${PACKAGES}
 
 if  [ "${OS_ID_LIKE}" = "arch" ]; then
     echo "found arch"
-    # TODO: LUTRIS
 else
     wget "https://launchpad.net/veracrypt/trunk/1.24-update7/+download/veracrypt-1.24-Update7-Ubuntu-21.10-amd64.deb" -O /tmp/veracrypt-1.24-Update7-Ubuntu-21.10-amd64.deb
     sudo apt install /tmp/veracrypt-1.24-Update7-Ubuntu-21.10-amd64.deb
