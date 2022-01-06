@@ -53,22 +53,20 @@ ${PACKAGE_MANAGER_BIN} ${PACKAGE_MANAGER_UPDATE_CMD}
 #sudo apt update -y && sudo apt upgrade -y && sudo apt autoremove -y
 #sudo apt full-upgrade
 
-PACKAGES+="gnome-tweaks neofetch git net-tools htop timeshift flatpak firefox chrome-gnome-shell screen "
+PACKAGES+="gnome-tweaks neofetch git net-tools htop timeshift flatpak firefox chrome-gnome-shell screen nvidia-settings mangohud goverlay "
 if  [ "${OS_ID_LIKE}" = "arch" ]; then
     PACKAGES+="sysstat python-pip "
 else
     PACKAGES+="systat python3-pip openssh-server "
+    PACKAGES+="nvidia-driver-470 nvidia-utils-470 "
 fi
 
+# TODO: remove xserver-xorg-video-nouveau
 echo
 echo "Running: ${PACKAGE_MANAGER_BIN} ${PACKAGE_MANAGER_INSTALL_CMD} ${PACKAGES}"
 echo
 ${PACKAGE_MANAGER_BIN} ${PACKAGE_MANAGER_INSTALL_CMD} ${PACKAGES}
 exit 0
-
-PACKAGES+="nvidia-driver-470 nvidia-utils-470 nvidia-settings "
-PACKAGES+="mangohud goverlay "
-# TODO: remove xserver-xorg-video-nouveau
 
 # KVM thin provisioning tools, virt-sparsify - https://www.certdepot.net/kvm-thin-provisioning-tip/
 PACKAGES+="libguestfs-tools "
