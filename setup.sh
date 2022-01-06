@@ -55,7 +55,7 @@ ${PACKAGE_MANAGER_BIN} ${PACKAGE_MANAGER_UPDATE_CMD}
 
 PACKAGES+="gnome-tweaks neofetch git net-tools htop timeshift flatpak firefox chrome-gnome-shell screen nvidia-settings mangohud goverlay "
 if  [ "${OS_ID_LIKE}" = "arch" ]; then
-    PACKAGES+="sysstat python-pip "
+    PACKAGES+="sysstat python-pip veracrypt "
     # Setup libvirt for Single GPU Passhthrough - https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/4)-Configuring-of-Libvirt
     PACKAGES+="virt-manager qemu vde2 dnsmasq bridge-utils ovmf iptables-nft nftables "
 
@@ -81,30 +81,35 @@ echo
 echo "Running: ${PACKAGE_MANAGER_BIN} ${PACKAGE_MANAGER_INSTALL_CMD} ${PACKAGES}"
 echo
 ${PACKAGE_MANAGER_BIN} ${PACKAGE_MANAGER_INSTALL_CMD} ${PACKAGES}
-exit 0
-
 
 #sudo apt install -y $PACKAGES
 
-wget "https://launchpad.net/veracrypt/trunk/1.24-update7/+download/veracrypt-1.24-Update7-Ubuntu-21.10-amd64.deb" -O /tmp/veracrypt-1.24-Update7-Ubuntu-21.10-amd64.deb
-sudo apt install /tmp/veracrypt-1.24-Update7-Ubuntu-21.10-amd64.deb
+if  [ "${OS_ID_LIKE}" = "arch" ]; then
+    echo "found arch"
+    # TODO: LUTRIS
+else
+    wget "https://launchpad.net/veracrypt/trunk/1.24-update7/+download/veracrypt-1.24-Update7-Ubuntu-21.10-amd64.deb" -O /tmp/veracrypt-1.24-Update7-Ubuntu-21.10-amd64.deb
+    sudo apt install /tmp/veracrypt-1.24-Update7-Ubuntu-21.10-amd64.deb
+    sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+    sudo flatpak update -y
+    sudo flatpak install -y flathub org.gnome.Extensions
 
-sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-sudo flatpak update -y
-sudo flatpak install -y flathub org.gnome.Extensions
+    # https://itsfoss.com/flatseal/
+    sudo flatpak install -y flathub com.github.tchx84.Flatseal
 
-# https://itsfoss.com/flatseal/
-sudo flatpak install -y flathub com.github.tchx84.Flatseal
+    sudo snap refresh
+    # latest barrier is in snap. doesn't support Wayland yet
+    sudo snap install barrier
+    sudo snap remove firefox
 
-sudo snap refresh
-# latest barrier is in snap. doesn't support Wayland yet
-sudo snap install barrier
-sudo snap remove firefox
+    # install latest lutris - https://lutris.net/downloads
+    sudo add-apt-repository ppa:lutris-team/lutris
+    sudo apt update
+    sudo apt install lutris
 
-# install latest lutris - https://lutris.net/downloads
-sudo add-apt-repository ppa:lutris-team/lutris
-sudo apt update
-sudo apt install lutris
+fi
+
+exit 0
 
 ## PAUSE HERE TO REBOOT
 
