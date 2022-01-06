@@ -7,7 +7,7 @@ GRUB_CFG_PATH=/etc/default/grub
 VFIO_CFG_PATH=/etc/dracut.conf.d/vfio.conf
 LIBVIRT_CFG_PATH=/etc/libvirt/libvirtd.conf
 QEMU_CFG_PATH=/etc/libvirt/qemu.conf
-APT_PACKAGES=""
+PACKAGES=""
 
 #use debian by default
 PACKAGE_MANAGER_BIN="sudo apt"
@@ -32,41 +32,51 @@ if  [ "${OS_ID_LIKE}" = "arch" ]; then
     PACKAGE_MANAGER_BIN="yay"
     PACKAGE_MANAGER_INSTALL_CMD="install -y"
     PACKAGE_MANAGER_UPDATE_CMD="-Syyu --noconfirm"
-
+    #PACKAGE_MANAGER_SEARCH_CMD="-Ss"
 fi
 
 # create a directory for any backups
-mkdir ${BACKUP_PATH}
+echo "Checking for ${BACKUP_PATH}"
+if [ ! -d ${BACKUP_PATH} ]; then
+    echo "Backup directory not found. Creating now."
+    mkdir ${BACKUP_PATH}
+fi
 
 # https://itsfoss.com/fedora-dark-mode/
 gsettings set org.gnome.desktop.interface gtk-theme Adwaita-dark
 #gsettings set org.gnome.desktop.interface gtk-theme Yaru-dark
 
+echo
 echo "Running: ${PACKAGE_MANAGER_BIN} ${PACKAGE_MANAGER_UPDATE_CMD}"
+echo
 ${PACKAGE_MANAGER_BIN} ${PACKAGE_MANAGER_UPDATE_CMD}
 #sudo apt update -y && sudo apt upgrade -y && sudo apt autoremove -y
 #sudo apt full-upgrade
 
+PACKAGES+="gnome-tweaks neofetch git openssh-server net-tools htop timeshift flatpak firefox chrome-gnome-shell python3-pip screen systat "
+echo
+echo "Running: ${PACKAGE_MANAGER_BIN} ${PACKAGE_MANAGER_INSTALL_CMD} ${PACKAGES}"
+echo
+${PACKAGE_MANAGER_BIN} ${PACKAGE_MANAGER_INSTALL_CMD} ${PACKAGES}
 exit 0
 
-APT_PACKAGES+="gnome-tweaks neofetch git openssh-server net-tools htop timeshift flatpak firefox chrome-gnome-shell python3-pip screen systat "
-APT_PACKAGES+="nvidia-driver-470 nvidia-utils-470 nvidia-settings "
-APT_PACKAGES+="mangohud goverlay "
+PACKAGES+="nvidia-driver-470 nvidia-utils-470 nvidia-settings "
+PACKAGES+="mangohud goverlay "
 # TODO: remove xserver-xorg-video-nouveau
 
 # KVM thin provisioning tools, virt-sparsify - https://www.certdepot.net/kvm-thin-provisioning-tip/
-APT_PACKAGES+="libguestfs-tools "
+PACKAGES+="libguestfs-tools "
 
 # https://cockpit-project.org/running.html#ubuntu
-APT_PACKAGES+="cockpit cockpit-machines cockpit-pcp "
+PACKAGES+="cockpit cockpit-machines cockpit-pcp "
 
 # https://flatpak.org/setup/Ubuntu/
-APT_PACKAGES+="flatpak gnome-software-plugin-flatpak "
+PACKAGES+="flatpak gnome-software-plugin-flatpak "
 
 # Setup libvirt for Single GPU Passhthrough - https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/4)-Configuring-of-Libvirt
-APT_PACKAGES+="qemu-kvm libvirt-clients libvirt-daemon-system bridge-utils virt-manager ovmf driverctl "
+PACKAGES+="qemu-kvm libvirt-clients libvirt-daemon-system bridge-utils virt-manager ovmf driverctl "
 
-sudo apt install -y $APT_PACKAGES
+sudo apt install -y $PACKAGES
 
 wget "https://launchpad.net/veracrypt/trunk/1.24-update7/+download/veracrypt-1.24-Update7-Ubuntu-21.10-amd64.deb" -O /tmp/veracrypt-1.24-Update7-Ubuntu-21.10-amd64.deb
 sudo apt install /tmp/veracrypt-1.24-Update7-Ubuntu-21.10-amd64.deb
