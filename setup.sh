@@ -9,18 +9,42 @@ LIBVIRT_CFG_PATH=/etc/libvirt/libvirtd.conf
 QEMU_CFG_PATH=/etc/libvirt/qemu.conf
 APT_PACKAGES=""
 
+#use debian by default
+PACKAGE_MANAGER_BIN="apt"
+PACKAGE_MANAGER_INSTALL_CMD="install -y"
+PACKAGE_MANAGER_UPDATE_CMD="update -y && sudo apt upgrade -y && sudo apt autoremove -y"
+
+# OS Detection: https://github.com/T-vK/MobilePassThrough/blob/unattended-win-install/scripts/utils/common/tools/distro-info
+
+if [ -f /etc/os-release ]; then
+    # Arch, freedesktop.org and systemd
+    . /etc/os-release
+    OS_NAME=$NAME
+    OS_ID_LIKE=$ID_LIKE
+fi
+
+echo "OS_NAME: $OS_NAME"
+echo "OS_ID_LIKE : $OS_ID_LIKE"
+
+if  [ "${OS_ID_LIKE}" = "arch" ]; then
+    echo "Found Arch!"
+fi
+
+exit 0
+
 # create a directory for any backups
 mkdir ${BACKUP_PATH}
 
 # https://itsfoss.com/fedora-dark-mode/
 gsettings set org.gnome.desktop.interface gtk-theme Adwaita-dark
-gsettings set org.gnome.desktop.interface gtk-theme Yaru-dark
+#gsettings set org.gnome.desktop.interface gtk-theme Yaru-dark
 
 sudo apt update -y && sudo apt upgrade -y && sudo apt autoremove -y
 #sudo apt full-upgrade
 
 APT_PACKAGES+="gnome-tweaks neofetch git openssh-server net-tools htop timeshift flatpak firefox chrome-gnome-shell python3-pip screen systat "
-APT_PACKAGES+="nvidia-driver-470 nvidia-utils-470 nvidia-settings mangohud goverlay "
+APT_PACKAGES+="nvidia-driver-470 nvidia-utils-470 nvidia-settings "
+APT_PACKAGES+="mangohud goverlay "
 # TODO: remove xserver-xorg-video-nouveau
 
 # KVM thin provisioning tools, virt-sparsify - https://www.certdepot.net/kvm-thin-provisioning-tip/
