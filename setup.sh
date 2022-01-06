@@ -10,7 +10,7 @@ QEMU_CFG_PATH=/etc/libvirt/qemu.conf
 APT_PACKAGES=""
 
 #use debian by default
-PACKAGE_MANAGER_BIN="apt"
+PACKAGE_MANAGER_BIN="sudo apt"
 PACKAGE_MANAGER_INSTALL_CMD="install -y"
 PACKAGE_MANAGER_UPDATE_CMD="update -y && sudo apt upgrade -y && sudo apt autoremove -y"
 
@@ -28,9 +28,12 @@ echo "OS_ID_LIKE : $OS_ID_LIKE"
 
 if  [ "${OS_ID_LIKE}" = "arch" ]; then
     echo "Found Arch!"
-fi
 
-exit 0
+    PACKAGE_MANAGER_BIN="yay"
+    PACKAGE_MANAGER_INSTALL_CMD="install -y"
+    PACKAGE_MANAGER_UPDATE_CMD="-Syyu --noconfirm"
+
+fi
 
 # create a directory for any backups
 mkdir ${BACKUP_PATH}
@@ -39,8 +42,12 @@ mkdir ${BACKUP_PATH}
 gsettings set org.gnome.desktop.interface gtk-theme Adwaita-dark
 #gsettings set org.gnome.desktop.interface gtk-theme Yaru-dark
 
-sudo apt update -y && sudo apt upgrade -y && sudo apt autoremove -y
+echo "Running: ${PACKAGE_MANAGER_BIN} ${PACKAGE_MANAGER_UPDATE_CMD}"
+${PACKAGE_MANAGER_BIN} ${PACKAGE_MANAGER_UPDATE_CMD}
+#sudo apt update -y && sudo apt upgrade -y && sudo apt autoremove -y
 #sudo apt full-upgrade
+
+exit 0
 
 APT_PACKAGES+="gnome-tweaks neofetch git openssh-server net-tools htop timeshift flatpak firefox chrome-gnome-shell python3-pip screen systat "
 APT_PACKAGES+="nvidia-driver-470 nvidia-utils-470 nvidia-settings "
