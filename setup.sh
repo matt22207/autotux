@@ -55,7 +55,7 @@ ${PACKAGE_MANAGER_BIN} ${PACKAGE_MANAGER_UPDATE_CMD}
 
 PACKAGES+="gnome-tweaks neofetch git net-tools htop timeshift flatpak firefox chrome-gnome-shell screen nvidia-settings mangohud goverlay "
 if  [ "${OS_ID_LIKE}" = "arch" ]; then
-    PACKAGES+="sysstat python-pip veracrypt lutris protonup-qt "
+    PACKAGES+="sysstat python-pip veracrypt lutris protonup protonup-qt "
     # Setup libvirt for Single GPU Passhthrough - https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/4)-Configuring-of-Libvirt
     PACKAGES+="virt-manager qemu vde2 dnsmasq bridge-utils ovmf iptables-nft nftables "
 
@@ -70,6 +70,7 @@ else
     PACKAGES+="libguestfs-tools "
     # Setup libvirt for Single GPU Passhthrough - https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/4)-Configuring-of-Libvirt
     PACKAGES+="qemu-kvm libvirt-clients libvirt-daemon-system bridge-utils virt-manager ovmf driverctl "
+    #TODO: protonup protonup-qt 
 fi
 
 # TODO: remove xserver-xorg-video-nouveau
@@ -108,7 +109,7 @@ else
 
 fi
 
-exit 0
+
 
 ## PAUSE HERE TO REBOOT
 
@@ -121,6 +122,7 @@ exit 0
 GRUB_UPDATE_REQUIRED=0
 cp ${GRUB_CFG_PATH} "${BACKUP_PATH}/grub_$(date +%Y%m%d_%H%M%S)"
 
+exit 0
 function addKernelParam() {
     if ! sudo cat "$GRUB_CFG_PATH" | grep "GRUB_CMDLINE_LINUX=" | grep --quiet "$1"; then
         sudo sed -i "s/^GRUB_CMDLINE_LINUX=\"/&$1 /" "$GRUB_CFG_PATH"
