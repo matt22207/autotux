@@ -183,8 +183,11 @@ function uncommmentLineFromFile() {
     replaceLineInFile "#$1" "$1" "$2"
 }
 
+echo
+echo "updating libvirt: cp ${LIBVIRT_CFG_PATH} ${BACKUP_PATH}/libvirtd.conf_$(date +%Y%m%d_%H%M%S)"
+echo
+
 cp ${LIBVIRT_CFG_PATH} "${BACKUP_PATH}/libvirtd.conf_$(date +%Y%m%d_%H%M%S)"
-exit 0
 
 uncommmentLineFromFile 'unix_sock_group = "libvirt"' "$LIBVIRT_CFG_PATH"
 uncommmentLineFromFile 'unix_sock_rw_perms = "0770"' "$LIBVIRT_CFG_PATH"
@@ -195,6 +198,12 @@ appendLineToFile 'log_outputs="1:file:/var/log/libvirt/libvirtd.log"' "$LIBVIRT_
 sudo usermod -a -G libvirt $(whoami)
 sudo systemctl start libvirtd
 sudo systemctl enable libvirtd
+
+echo
+diff ${LIBVIRT_CFG_PATH} "${BACKUP_PATH}/libvirtd.conf_$(date +%Y%m%d_%H%M%S)"
+echo
+
+exit 0
 
 sudo cp ${QEMU_CFG_PATH} "${BACKUP_PATH}/qemu.conf_$(date +%Y%m%d_%H%M%S)"
 replaceLineInFile '#user = "root"' "user = '$(whoami)'" "$QEMU_CFG_PATH"
