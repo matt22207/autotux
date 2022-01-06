@@ -8,6 +8,7 @@ VFIO_CFG_PATH=/etc/dracut.conf.d/vfio.conf
 LIBVIRT_CFG_PATH=/etc/libvirt/libvirtd.conf
 QEMU_CFG_PATH=/etc/libvirt/qemu.conf
 PACKAGES=""
+UPDATE_GRUB_CMD="update-grub"
 
 #use debian by default
 PACKAGE_MANAGER_BIN="sudo apt"
@@ -33,6 +34,7 @@ if  [ "${OS_ID_LIKE}" = "arch" ]; then
     PACKAGE_MANAGER_INSTALL_CMD="-S --noconfirm --needed"
     PACKAGE_MANAGER_UPDATE_CMD="-Syyu --noconfirm"
     #PACKAGE_MANAGER_SEARCH_CMD="-Ss"
+    UPDATE_GRUB_CMD="grub-mkconfig -o /boot/grub/grub.cfg"
 fi
 
 # create a directory for any backups
@@ -122,7 +124,6 @@ fi
 GRUB_UPDATE_REQUIRED=0
 cp ${GRUB_CFG_PATH} "${BACKUP_PATH}/grub_$(date +%Y%m%d_%H%M%S)"
 
-exit 0
 function addKernelParam() {
     if ! sudo cat "$GRUB_CFG_PATH" | grep "GRUB_CMDLINE_LINUX=" | grep --quiet "$1"; then
         sudo sed -i "s/^GRUB_CMDLINE_LINUX=\"/&$1 /" "$GRUB_CFG_PATH"
@@ -153,10 +154,11 @@ echo "Checking if GRUB_UPDATE_REQUIRED == 1 : ${GRUB_UPDATE_REQUIRED}"
 
 if  [ ${GRUB_UPDATE_REQUIRED} -eq 1 ]; then
     echo "Applying the kernel parameter changes... *** RESTART NEEDED ***"
-    sudo update-grub
+    sudo ${UPDATE_GRUB_CMD}
 else
     echo "No changes to kernel parameters..."
 fi
+exit 0
 
 # Step 4 : https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/4)-Configuring-of-Libvirt
 
