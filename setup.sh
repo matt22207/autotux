@@ -55,8 +55,9 @@ ${PACKAGE_MANAGER_BIN} ${PACKAGE_MANAGER_UPDATE_CMD}
 
 PACKAGES+="gnome-tweaks neofetch git net-tools htop timeshift flatpak firefox chrome-gnome-shell screen nvidia-settings mangohud goverlay "
 if  [ "${OS_ID_LIKE}" = "arch" ]; then
-    # KVM thin provisioning tools, virt-sparsify - https://www.certdepot.net/kvm-thin-provisioning-tip/
     PACKAGES+="sysstat python-pip guestfs-tools "
+    # KVM thin provisioning tools, virt-sparsify - https://www.certdepot.net/kvm-thin-provisioning-tip/
+    # TODO SINCE BROKEN: PACKAGES+="guestfs-tools "
 else
     PACKAGES+="systat python3-pip openssh-server "
     PACKAGES+="nvidia-driver-470 nvidia-utils-470 "
