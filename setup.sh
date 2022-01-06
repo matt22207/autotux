@@ -30,7 +30,7 @@ if  [ "${OS_ID_LIKE}" = "arch" ]; then
     echo "Found Arch!"
 
     PACKAGE_MANAGER_BIN="yay"
-    PACKAGE_MANAGER_INSTALL_CMD="install -y"
+    PACKAGE_MANAGER_INSTALL_CMD="-Syyu --noconfirm"
     PACKAGE_MANAGER_UPDATE_CMD="-Syyu --noconfirm"
     #PACKAGE_MANAGER_SEARCH_CMD="-Ss"
 fi
