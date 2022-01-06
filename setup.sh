@@ -55,14 +55,15 @@ ${PACKAGE_MANAGER_BIN} ${PACKAGE_MANAGER_UPDATE_CMD}
 
 PACKAGES+="gnome-tweaks neofetch git net-tools htop timeshift flatpak firefox chrome-gnome-shell screen nvidia-settings mangohud goverlay "
 if  [ "${OS_ID_LIKE}" = "arch" ]; then
-    PACKAGES+="sysstat python-pip "
+    # KVM thin provisioning tools, virt-sparsify - https://www.certdepot.net/kvm-thin-provisioning-tip/
+    PACKAGES+="sysstat python-pip guestfs-tools "
 else
     PACKAGES+="systat python3-pip openssh-server "
     PACKAGES+="nvidia-driver-470 nvidia-utils-470 "
+    # KVM thin provisioning tools, virt-sparsify - https://www.certdepot.net/kvm-thin-provisioning-tip/
+    PACKAGES+="libguestfs-tools "
 fi
 
-# KVM thin provisioning tools, virt-sparsify - https://www.certdepot.net/kvm-thin-provisioning-tip/
-PACKAGES+="libguestfs-tools "
 # TODO: remove xserver-xorg-video-nouveau
 
 echo
