@@ -59,7 +59,7 @@ PACKAGES+="gnome-tweaks neofetch git net-tools htop timeshift flatpak firefox ch
 if  [ "${OS_ID_LIKE}" = "arch" ]; then
     PACKAGES+="sysstat python-pip veracrypt lutris protonup protonup-qt "
     # Setup libvirt for Single GPU Passhthrough - https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/4)-Configuring-of-Libvirt
-    PACKAGES+="virt-manager qemu vde2 dnsmasq bridge-utils ovmf iptables-nft nftables "
+    PACKAGES+="virt-manager qemu vde2 dnsmasq bridge-utils ovmf iptables-nft nftables ebtables "
 
     # KVM thin provisioning tools, virt-sparsify - https://www.certdepot.net/kvm-thin-provisioning-tip/
     # TODO SINCE BROKEN: PACKAGES+="guestfs-tools "
@@ -203,7 +203,9 @@ echo
 diff ${LIBVIRT_CFG_PATH} "${BACKUP_PATH}/libvirtd.conf_$(date +%Y%m%d_%H%M%S)"
 echo
 
-exit 0
+echo
+echo "updating qemu conf: ${QEMU_CFG_PATH} ${BACKUP_PATH}/qemu.conf_$(date +%Y%m%d_%H%M%S)"
+echo
 
 sudo cp ${QEMU_CFG_PATH} "${BACKUP_PATH}/qemu.conf_$(date +%Y%m%d_%H%M%S)"
 replaceLineInFile '#user = "root"' "user = '$(whoami)'" "$QEMU_CFG_PATH"
@@ -212,6 +214,13 @@ replaceLineInFile '#group = "root"' "group = '$(whoami)'" "$QEMU_CFG_PATH"
 echo "restarting libvirtd"
 sudo systemctl restart libvirtd
 sudo usermod -a -G kvm,libvirt $(whoami)
+
+echo
+diff ${QEMU_CFG_PATH} "${BACKUP_PATH}/qemu.conf_$(date +%Y%m%d_%H%M%S)"
+echo
+
+# automatically start virsh network on boot
+sudo virsh net-autostart default
 
 # Step 7: https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/6)-Preparation-and-placing-of-ROM-file
 
