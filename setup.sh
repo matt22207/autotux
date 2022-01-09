@@ -55,14 +55,19 @@ ${PACKAGE_MANAGER_BIN} ${PACKAGE_MANAGER_UPDATE_CMD}
 #sudo apt update -y && sudo apt upgrade -y && sudo apt autoremove -y
 #sudo apt full-upgrade
 
-PACKAGES+="gnome-tweaks neofetch git net-tools htop timeshift flatpak firefox chrome-gnome-shell screen nvidia-settings mangohud goverlay "
+PACKAGES+="gnome-tweaks neofetch git net-tools htop timeshift deja-dup flatpak firefox chrome-gnome-shell screen nvidia-settings mangohud goverlay "
 if  [ "${OS_ID_LIKE}" = "arch" ]; then
     PACKAGES+="sysstat python-pip veracrypt lutris protonup protonup-qt "
     # Setup libvirt for Single GPU Passhthrough - https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/4)-Configuring-of-Libvirt
     PACKAGES+="virt-manager qemu vde2 dnsmasq bridge-utils ovmf iptables-nft nftables ebtables "
 
+    # setup wine dependencies : https://github.com/lutris/docs/blob/master/WineDependencies.md
+    PACKAGES+="wine-staging giflib lib32-giflib libpng lib32-libpng libldap lib32-libldap gnutls lib32-gnutls mpg123 lib32-mpg123 openal lib32-openal v4l-utils lib32-v4l-utils libpulse lib32-libpulse libgpg-error lib32-libgpg-error alsa-plugins lib32-alsa-plugins alsa-lib lib32-alsa-lib libjpeg-turbo lib32-libjpeg-turbo sqlite lib32-sqlite libxcomposite lib32-libxcomposite libxinerama lib32-libgcrypt libgcrypt lib32-libxinerama ncurses lib32-ncurses opencl-icd-loader lib32-opencl-icd-loader libxslt lib32-libxslt libva lib3vgiflib lib32-giflib libpng lib32-libpng libldap lib32-libldap gnutls lib32-gnutls mpg123 lib32-mpg123 openal lib32-openal v4l-utils lib32-v4l-utils libpulse lib32-libpulse libgpg-error lib32-libgpg-error alsa-plugins lib32-alsa-plugins alsa-lib lib32-alsa-lib libjpeg-turbo lib32-libjpeg-turbo sqlite lib32-sqlite libxcomposite lib32-libxcomposite libxinerama lib32-libgcrypt libgcrypt lib32-libxinerama ncurses lib32-ncurses opencl-icd-loader lib32-opencl-icd-loader libxslt lib32-libxslt libva lib32-libva gtk3 lib32-gtk3 gst-plugins-base-libs lib32-gst-plugins-base-libs vulkan-icd-loader lib32-vulkan-icd-loader "
+    PACKAGES+="wine-gecko wine-mono lib32-nvidia-utils "
+
     # KVM thin provisioning tools, virt-sparsify - https://www.certdepot.net/kvm-thin-provisioning-tip/
     # TODO SINCE BROKEN: PACKAGES+="guestfs-tools "
+    # TODO possibly virtio-win qemu-guest-agent needed for auto suspend
 else
     # https://flatpak.org/setup/Ubuntu/
     PACKAGES+="flatpak gnome-software-plugin-flatpak "
@@ -78,7 +83,7 @@ fi
 # TODO: remove xserver-xorg-video-nouveau
 
 # https://cockpit-project.org/running.html#ubuntu
-PACKAGES+="cockpit cockpit-machines cockpit-pcp "
+PACKAGES+="cockpit cockpit-machines cockpit-pcp nvtop packagekit gnome-packagekit "
 
 echo
 echo "Running: ${PACKAGE_MANAGER_BIN} ${PACKAGE_MANAGER_INSTALL_CMD} ${PACKAGES}"
@@ -86,6 +91,8 @@ echo
 ${PACKAGE_MANAGER_BIN} ${PACKAGE_MANAGER_INSTALL_CMD} ${PACKAGES}
 
 #sudo apt install -y $PACKAGES
+
+#TODO: set default virsh connection: https://rabexc.org/posts/libvirt-default-url
 
 if  [ "${OS_ID_LIKE}" = "arch" ]; then
     echo "found arch"
@@ -229,3 +236,50 @@ sudo mkdir /usr/share/vgabios
 sudo wget https://raw.githubusercontent.com/matt22207/autotux/main/TU104.rom -O /usr/share/vgabios/TU104.rom
 sudo chmod -R 660 /usr/share/vgabios/TU104.rom
 sudo chown $(whoami):$(whoami) /usr/share/vgabios/TU104.rom
+
+### TODO ###
+
+# Hibernating a VM with devices passed through
+# https://www.reddit.com/r/VFIO/comments/erys86/hibernating_a_vm_with_devices_passed_through/ff7a2he/?context=3
+# https://www.reddit.com/r/VFIO/comments/5hi4ce/pci_passthrough_suspending_a_vm_starting_a_new_vm/
+# Add <suspend-to-disk enabled='yes'/> to the <pm> section of your VM XML.
+# ---  <pm> <suspend-to-mem enabled='yes'/> <suspend-to-disk enabled='yes'/> </pm> 
+# Enable hibernation in your guest with powercfg.exe /hibernate on in the Windows command prompt.
+# To hibernate from the host you need to install the qemu guest agent in Windows.
+# --- https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/virtualization_administration_guide/sect-qemu_guest_agent-running_the_qemu_guest_agent_on_a_windows_guest
+# add a qemu-ga "channel" to your VM
+# systemd hooks for automatically hibernating guest when suspend/shutdown host
+# --- Auto suspend and resume KVM Virtual Machine with the host: 
+# --- https://abishekmuthian.com/auto-suspend-and-resume-kvm-virtual-machine-with-the-host/
+# --- on shutdown: https://unix.stackexchange.com/questions/39226/how-to-run-a-script-with-systemd-right-before-shutdown
+# --- detect status: https://stackoverflow.com/questions/37453525/how-can-i-check-specific-server-running-or-notusing-virsh-commands-before-i-s
+# virsh dompmsuspend win10 disk
+
+# vi /usr/lib/systemd/system-sleep/vm
+
+#!/bin/sh
+# 
+# case "$1" in
+#     pre)
+#         VM=win10
+#         echo "`date` : checking virsh status for suspend"
+#         tmp=$(virsh list --all | grep " $VM " | awk '{ print $3}')
+#         if ([ "x$tmp" == "x" ] || [ "x$tmp" != "xrunning" ])
+#         then
+#                 echo "VM does not exist or is shut down!"
+#                 # Try additional commands here...
+#         else
+#                 echo "`date` : VM is running! starting suspend"
+#                 virsh dompmsuspend win10 disk
+
+#                 state=$(virsh list --all | grep " $VM " | awk '{ print $3}')
+#                 while ([ "x$state" != "xshut" ]); do
+#                         sleep 0.1
+#                         state=$(virsh list --all | grep " $VM " | awk '{ print $3}')
+#                         echo "`date` : sleep : ${state}"
+#                 done;
+#                 sleep 1
+#                 echo "`date` : vm shutdown complete - ready for HW suspend"
+#         fi
+#         ;;
+# esac
