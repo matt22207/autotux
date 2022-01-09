@@ -95,7 +95,9 @@ ${PACKAGE_MANAGER_BIN} ${PACKAGE_MANAGER_INSTALL_CMD} ${PACKAGES}
 #TODO: set default virsh connection: https://rabexc.org/posts/libvirt-default-url
 
 if  [ "${OS_ID_LIKE}" = "arch" ]; then
-    echo "found arch"
+    echo "Additional steps for arch"
+    sudo systemctl start bluetooth
+    sudo systemctl enable bluetooth
 else
     wget "https://launchpad.net/veracrypt/trunk/1.24-update7/+download/veracrypt-1.24-Update7-Ubuntu-21.10-amd64.deb" -O /tmp/veracrypt-1.24-Update7-Ubuntu-21.10-amd64.deb
     sudo apt install /tmp/veracrypt-1.24-Update7-Ubuntu-21.10-amd64.deb
