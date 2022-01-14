@@ -50,6 +50,7 @@ gsettings set org.gnome.desktop.interface gtk-theme Adwaita-dark
 
 gsettings set org.gnome.settings-daemon.plugins.media-keys screen-brightness-down "['Launch5']"
 gsettings set org.gnome.settings-daemon.plugins.media-keys screen-brightness-up "['Launch6']"
+gsettings set org.gnome.settings-daemon.plugins.media-keys suspend "['<Alt><Super>Eject']"
 
 echo
 echo "Running: ${PACKAGE_MANAGER_BIN} ${PACKAGE_MANAGER_UPDATE_CMD}"
