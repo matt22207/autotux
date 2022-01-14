@@ -103,6 +103,11 @@ if  [ "${OS_ID_LIKE}" = "arch" ]; then
     echo "Additional steps for arch"
     sudo systemctl start bluetooth
     sudo systemctl enable bluetooth
+
+    # setup SSL cert for Barrier : https://github.com/debauchee/barrier/issues/231#issuecomment-963408739
+    mkdir -p ~/.local/share/barrier/SSL/Fingerprints
+    openssl req -x509 -nodes -days 365 -subj /CN=Barrier -newkey rsa:4096 -keyout ~/.local/share/barrier/SSL/Barrier.pem -out ~/.local/share/barrier/SSL/Barrier.pem
+    openssl x509 -fingerprint -sha1 -noout -in ~/.local/share/barrier/SSL/Barrier.pem > ~/.local/share/barrier/SSL/Fingerprints/Local.txt
 else
     wget "https://launchpad.net/veracrypt/trunk/1.24-update7/+download/veracrypt-1.24-Update7-Ubuntu-21.10-amd64.deb" -O /tmp/veracrypt-1.24-Update7-Ubuntu-21.10-amd64.deb
     sudo apt install /tmp/veracrypt-1.24-Update7-Ubuntu-21.10-amd64.deb
