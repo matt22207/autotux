@@ -60,6 +60,7 @@ if  [ "${OS_ID_LIKE}" = "arch" ]; then
     PACKAGE_MANAGER_BIN="yay"
     PACKAGE_MANAGER_INSTALL_CMD="-S --noconfirm --needed"
     PACKAGE_MANAGER_UPDATE_CMD="-Syyu --noconfirm"
+    # TODO: PACKAGE_MANAGER_UPGRADE_CMD and PACKAGE_MANAGER_AUTOREMOVE_CMD
     #PACKAGE_MANAGER_SEARCH_CMD="-Ss"
     UPDATE_GRUB_CMD="grub-mkconfig -o /boot/grub/grub.cfg"
 fi
