@@ -23,7 +23,7 @@ echo "disable enterprise repo since we are running unlicensed proxmox"
 echo
 
 cp /etc/apt/sources.list.d/pve-enterprise.list "${BACKUP_PATH}/pve-enterprise.list_$(date +%Y%m%d_%H%M%S)"
-commmentLineinFile "deb https://enterprise.proxmox.com/debian/pve bullseye pve-enterprise" "/etc/apt/sources.list.d/pve-enterprise.list"
+commmentLineInFile "deb https://enterprise.proxmox.com/debian/pve bullseye pve-enterprise" "/etc/apt/sources.list.d/pve-enterprise.list"
 
 exit 0
 
