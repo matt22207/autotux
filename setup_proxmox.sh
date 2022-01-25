@@ -18,12 +18,14 @@ if [ ! -d ${BACKUP_PATH} ]; then
     mkdir ${BACKUP_PATH}
 fi
 
-echo
-echo "disable enterprise repo since we are running unlicensed proxmox"
-echo
+if ! ${SUDO} cat /etc/apt/sources.list.d/pve-enterprise.list | grep "#deb https://enterprise.proxmox.com/debian/pve bullseye pve-enterprise"; then
+    echo
+    echo "disable enterprise repo since we are running unlicensed proxmox"
+    echo
 
-cp /etc/apt/sources.list.d/pve-enterprise.list "${BACKUP_PATH}/pve-enterprise.list_$(date +%Y%m%d_%H%M%S)"
-commmentLineInFile 'deb https:\/\/enterprise\.proxmox\.com\/debian\/pve bullseye pve-enterprise' "/etc/apt/sources.list.d/pve-enterprise.list"
+    cp /etc/apt/sources.list.d/pve-enterprise.list "${BACKUP_PATH}/pve-enterprise.list_$(date +%Y%m%d_%H%M%S)"
+    commmentLineInFile 'deb https:\/\/enterprise\.proxmox\.com\/debian\/pve bullseye pve-enterprise' "/etc/apt/sources.list.d/pve-enterprise.list"
+fi
 
 exit 0
 
