@@ -3,7 +3,7 @@
 # config variables. do not run directly. use setup.sh / setup_proxmox.sh
 
 SUDO=""
-if [ $(whoami) != "root"]; then
+if [ "$(whoami)" != "root" ]; then
     echo "not root"
     SUDO="sudo"
 else
