@@ -27,6 +27,14 @@ if ! ${SUDO} cat /etc/apt/sources.list.d/pve-enterprise.list | grep "#deb https:
     commmentLineInFile 'deb https:\/\/enterprise\.proxmox\.com\/debian\/pve bullseye pve-enterprise' "/etc/apt/sources.list.d/pve-enterprise.list"
 fi
 
+echo
+echo "adding public repo since we are running unlicensed proxmox"
+echo
+
+appendLineToFile '# PVE pve-no-subscription repository provided by proxmox.com,' '/etc/apt/sources.list'
+appendLineToFile '# NOT recommended for production use' '/etc/apt/sources.list'
+appendLineToFile 'deb http://download.proxmox.com/debian/pve bullseye pve-no-subscription' '/etc/apt/sources.list'
+
 exit 0
 
 echo
