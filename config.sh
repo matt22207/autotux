@@ -18,20 +18,20 @@ PACKAGE_MANAGER_UPDATE_CMD="update -y && sudo apt upgrade -y && sudo apt autorem
 # OS Detection: https://github.com/T-vK/MobilePassThrough/blob/unattended-win-install/scripts/utils/common/tools/distro-info
 
 if [ -f /etc/os-release ]; then
-    echo "found /etc/os-release"
+    # echo "found /etc/os-release"
     # Arch, freedesktop.org and systemd
     . /etc/os-release
     OS_NAME=$NAME
     OS_ID_LIKE=$ID_LIKE
     OS_VER=$VERSION_ID
 elif [ -f /etc/debian_version ]; then
-    echo "older debian"
+    # echo "older debian"
     # Older Debian/Ubuntu/etc.
     OS_NAME=Debian
     OS_ID_LIKE=$OS
     OS_VER=$(cat /etc/debian_version)
 else
-    echo "fallback to uname"
+    # echo "fallback to uname"
     # Fall back to uname, e.g. "Linux <version>", also works for BSD, etc.
     OS_NAME=$(uname -s)
     OS_ID_LIKE=$OS
