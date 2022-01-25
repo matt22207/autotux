@@ -9,7 +9,7 @@ if [ "$(whoami)" != "root" ]; then
 else
     echo "root"
 fi
-echo "sudo: $SUDO"
+echo "sudo: ${SUDO}"
 
 
 BACKUP_PATH=~/.setup_backups
@@ -21,9 +21,9 @@ PACKAGES=""
 UPDATE_GRUB_CMD="update-grub"
 
 #use debian by default
-PACKAGE_MANAGER_BIN="sudo apt"
+PACKAGE_MANAGER_BIN="${SUDO} apt"
 PACKAGE_MANAGER_INSTALL_CMD="install -y"
-PACKAGE_MANAGER_UPDATE_CMD="update -y && sudo apt upgrade -y && sudo apt autoremove -y"
+PACKAGE_MANAGER_UPDATE_CMD="update -y && ${SUDO} apt upgrade -y && ${SUDO} apt autoremove -y"
 
 # OS Detection: https://github.com/T-vK/MobilePassThrough/blob/unattended-win-install/scripts/utils/common/tools/distro-info
 
