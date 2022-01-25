@@ -35,11 +35,10 @@ appendLineToFile '# PVE pve-no-subscription repository provided by proxmox.com,'
 appendLineToFile '# NOT recommended for production use' '/etc/apt/sources.list'
 appendLineToFile 'deb http://download.proxmox.com/debian/pve bullseye pve-no-subscription' '/etc/apt/sources.list'
 
-exit 0
-
 echo
 echo "Running: ${PACKAGE_MANAGER_BIN} ${PACKAGE_MANAGER_UPDATE_CMD}"
 echo
 ${PACKAGE_MANAGER_BIN} ${PACKAGE_MANAGER_UPDATE_CMD}
 
 
+exit 0
