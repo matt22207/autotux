@@ -2,6 +2,16 @@
 
 # config variables. do not run directly. use setup.sh / setup_proxmox.sh
 
+SUDO=""
+if [ $(whoami) != "root"]; then
+    echo "not root"
+    SUDO="sudo"
+else
+    echo "root"
+fi
+echo "sudo: $SUDO"
+
+
 BACKUP_PATH=~/.setup_backups
 GRUB_CFG_PATH=/etc/default/grub
 VFIO_CFG_PATH=/etc/dracut.conf.d/vfio.conf
