@@ -23,20 +23,19 @@ if [ -f /etc/os-release ]; then
     . /etc/os-release
     OS_NAME=$NAME
     OS_ID_LIKE=$ID_LIKE
-    VER=$VERSION_ID
+    OS_VER=$VERSION_ID
 elif [ -f /etc/debian_version ]; then
     echo "older debian"
     # Older Debian/Ubuntu/etc.
-    OS=Debian
+    OS_NAME=Debian
     OS_ID_LIKE=$OS
-
-    VER=$(cat /etc/debian_version)
+    OS_VER=$(cat /etc/debian_version)
 else
     echo "fallback to uname"
     # Fall back to uname, e.g. "Linux <version>", also works for BSD, etc.
-    OS=$(uname -s)
+    OS_NAME=$(uname -s)
     OS_ID_LIKE=$OS
-    VER=$(uname -r)
+    OS_VER=$(uname -r)
 fi
 
 echo "OS_NAME: $OS_NAME"
