@@ -10,5 +10,5 @@
 
 source ./config.sh
 
-echo $BACKUP_PATH
+echo $OS_NAME
 exit 0
