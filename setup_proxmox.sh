@@ -9,6 +9,27 @@
 # bash ./setup_proxmox.sh
 
 source ./config.sh
+source ./functions.sh
 
-echo $OS_NAME
+# create a directory for any backups
+echo "Checking for ${BACKUP_PATH}"
+if [ ! -d ${BACKUP_PATH} ]; then
+    echo "Backup directory not found. Creating now."
+    mkdir ${BACKUP_PATH}
+fi
+
+echo
+echo "disable enterprise repo since we are running unlicensed proxmox"
+echo
+
+cp /etc/apt/sources.list.d/pve-enterprise.list "${BACKUP_PATH}/pve-enterprise.list_$(date +%Y%m%d_%H%M%S)"
+commmentLineinFile "deb https://enterprise.proxmox.com/debian/pve bullseye pve-enterprise" "/etc/apt/sources.list.d/pve-enterprise.list"
+
 exit 0
+
+echo
+echo "Running: ${PACKAGE_MANAGER_BIN} ${PACKAGE_MANAGER_UPDATE_CMD}"
+echo
+${PACKAGE_MANAGER_BIN} ${PACKAGE_MANAGER_UPDATE_CMD}
+
+
