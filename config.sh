@@ -14,3 +14,35 @@ UPDATE_GRUB_CMD="update-grub"
 PACKAGE_MANAGER_BIN="sudo apt"
 PACKAGE_MANAGER_INSTALL_CMD="install -y"
 PACKAGE_MANAGER_UPDATE_CMD="update -y && sudo apt upgrade -y && sudo apt autoremove -y"
+
+# OS Detection: https://github.com/T-vK/MobilePassThrough/blob/unattended-win-install/scripts/utils/common/tools/distro-info
+
+if [ -f /etc/os-release ]; then
+    # Arch, freedesktop.org and systemd
+    . /etc/os-release
+    OS_NAME=$NAME
+    OS_ID_LIKE=$ID_LIKE
+    VER=$VERSION_ID
+elif [ -f /etc/debian_version ]; then
+    # Older Debian/Ubuntu/etc.
+    OS=Debian
+    VER=$(cat /etc/debian_version)
+else
+    # Fall back to uname, e.g. "Linux <version>", also works for BSD, etc.
+    OS=$(uname -s)
+    VER=$(uname -r)
+fi
+
+echo "OS_NAME: $OS_NAME"
+echo "OS_ID_LIKE : $OS_ID_LIKE"
+echo "OS_VER: $OS_VER"
+
+if  [ "${OS_ID_LIKE}" = "arch" ]; then
+    echo "Found Arch!"
+
+    PACKAGE_MANAGER_BIN="yay"
+    PACKAGE_MANAGER_INSTALL_CMD="-S --noconfirm --needed"
+    PACKAGE_MANAGER_UPDATE_CMD="-Syyu --noconfirm"
+    #PACKAGE_MANAGER_SEARCH_CMD="-Ss"
+    UPDATE_GRUB_CMD="grub-mkconfig -o /boot/grub/grub.cfg"
+fi
