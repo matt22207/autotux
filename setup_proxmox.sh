@@ -60,8 +60,12 @@ wget -c -P /var/lib/vz/template/iso https://releases.ubuntu.com/21.10/ubuntu-21.
 echo 
 echo "creating VM"
 echo
+# https://pve.proxmox.com/pve-docs/index.html
+# https://pve.proxmox.com/pve-docs/qm.1.html
 qm destroy 100
 qm create 100 --agent 1 --bios seabios --boot order=ide2\;scsi0 --cpu cputype=host --cores 16 --sockets 1 --ide2 local:iso/ubuntu-21.10-desktop-amd64.iso,media=cdrom --machine q35 --memory 10240 --name minisBuntu --net0 virtio=3A:0A:65:11:25:9A,bridge=vmbr0,firewall=1 --numa 0 --ostype l26 --scsi0 local-lvm:vm-100-disk-0,cache=writeback,size=32G,ssd=1 --scsihw virtio-scsi-pci --tpmstate0 local-lvm:vm-100-disk-1,size=4M,version=v2.0
+
+# https://pve.proxmox.com/wiki/Storage
 pvesm alloc local-lvm 100 vm-100-disk-0 32G
 pvesm alloc local-lvm 100 vm-100-disk-1 4M
 
