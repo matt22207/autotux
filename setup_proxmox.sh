@@ -57,9 +57,6 @@ echo "Downloading Ubuntu"
 echo
 wget -c -P /var/lib/vz/template/iso https://releases.ubuntu.com/21.10/ubuntu-21.10-desktop-amd64.iso
 
-
-exit 0
-
 echo 
 echo "creating VM"
 echo
@@ -67,3 +64,9 @@ qm destroy 100
 qm create 100 --agent 1 --bios seabios --boot order=ide2\;scsi0 --cpu cputype=host --cores 16 --sockets 1 --ide2 local:iso/ubuntu-21.10-desktop-amd64.iso,media=cdrom --machine q35 --memory 10240 --name minisBuntu --net0 virtio=3A:0A:65:11:25:9A,bridge=vmbr0,firewall=1 --numa 0 --ostype l26 --scsi0 local-lvm:vm-100-disk-0,cache=writeback,size=32G,ssd=1 --scsihw virtio-scsi-pci --tpmstate0 local-lvm:vm-100-disk-1,size=4M,version=v2.0
 pvesm alloc local-lvm 100 vm-100-disk-0 32G
 pvesm alloc local-lvm 100 vm-100-disk-1 4M
+
+echo
+echo "**** Download Windows10 manually via : wget -c -P /var/lib/vz/template/iso Win10_21H2_English_x64.iso https://www.dropbox.com/ignore_me..."
+echo
+
+exit 0
