@@ -6,7 +6,7 @@
 # 
 # git clone https://github.com/matt22207/autotux.git
 # cd autotux
-# git pull; bash ./setup_proxmox.sh
+# git pull; bash ./setup.sh
 #
 
 BACKUP_PATH=~/.setup_backups
@@ -65,6 +65,8 @@ echo
 ${PACKAGE_MANAGER_BIN} ${PACKAGE_MANAGER_UPDATE_CMD}
 #sudo apt update -y && sudo apt upgrade -y && sudo apt autoremove -y
 #sudo apt full-upgrade
+
+exit 0
 
 PACKAGES+="gnome-tweaks neofetch git net-tools htop timeshift deja-dup flatpak firefox chrome-gnome-shell screen nvidia-settings mangohud goverlay "
 if  [ "${OS_ID_LIKE}" = "arch" ]; then
