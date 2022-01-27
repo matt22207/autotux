@@ -1,6 +1,13 @@
 #!/bin/bash
 
 # wget -O - https://raw.githubusercontent.com/matt22207/autotux/main/setup.sh | bash
+# 
+# or
+# 
+# git clone https://github.com/matt22207/autotux.git
+# cd autotux
+# git pull; bash ./setup_proxmox.sh
+#
 
 BACKUP_PATH=~/.setup_backups
 GRUB_CFG_PATH=/etc/default/grub
