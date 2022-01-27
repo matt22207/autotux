@@ -77,7 +77,8 @@ if  [ "${OS_ID_LIKE}" = "arch" ]; then
     PACKAGES+="wine-gecko wine-mono lib32-nvidia-utils "
     # GreenWithEnvy - nvidia stats - https://www.flathub.org/apps/details/com.leinardi.gwe
     PACKAGES+="gwe "
-    PACKAGES+="zoom slack-desktop dropbox dropbox-cli maestral maestral-qt sparsebundlefs "
+    # optional productivity apps
+    #PACKAGES+="zoom slack-desktop dropbox dropbox-cli maestral maestral-qt sparsebundlefs "
 
     # KVM thin provisioning tools, virt-sparsify - https://www.certdepot.net/kvm-thin-provisioning-tip/
     # TODO SINCE BROKEN: PACKAGES+="guestfs-tools "
