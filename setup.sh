@@ -66,8 +66,6 @@ ${PACKAGE_MANAGER_BIN} ${PACKAGE_MANAGER_UPDATE_CMD}
 #sudo apt update -y && sudo apt upgrade -y && sudo apt autoremove -y
 #sudo apt full-upgrade
 
-exit 0
-
 PACKAGES+="gnome-tweaks neofetch git net-tools htop timeshift deja-dup flatpak firefox chrome-gnome-shell screen nvidia-settings mangohud goverlay "
 if  [ "${OS_ID_LIKE}" = "arch" ]; then
     PACKAGES+="sysstat python-pip veracrypt lutris protonup protonup-qt gamemode "
@@ -141,7 +139,7 @@ else
 
 fi
 
-
+exit 0
 
 ## PAUSE HERE TO REBOOT
 
