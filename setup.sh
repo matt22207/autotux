@@ -78,6 +78,10 @@ if  [ "${OS_ID_LIKE}" = "arch" ]; then
     PACKAGES+="wine-gecko wine-mono lib32-nvidia-utils moonlight-qt "
     # GreenWithEnvy - nvidia stats - https://www.flathub.org/apps/details/com.leinardi.gwe
     PACKAGES+="gwe "
+    # Steam video decoding - https://wiki.archlinux.org/title/Hardware_video_acceleration
+    yay -S nvidia-utils nvidia-vaapi-driver libvdpau-va-gl vdpauinfo libva-utils
+    vainfo
+
     # optional productivity apps
     #PACKAGES+="zoom slack-desktop dropbox dropbox-cli maestral maestral-qt sparsebundlefs "
 
