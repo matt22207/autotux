@@ -146,6 +146,7 @@ else
 fi
 
 flatpak install -y com.mattjakeman.ExtensionManager
+flatpak install -y net.cozic.joplin_desktop
 
 exit 0
 
