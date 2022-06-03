@@ -9,6 +9,7 @@
 # git pull; bash ./setup.sh
 #
 # TODO add execution bit to setup.sh
+# You can find package mappings for different distros here: https://pkgs.org/
 
 BACKUP_PATH=~/.setup_backups
 GRUB_CFG_PATH=/etc/default/grub
