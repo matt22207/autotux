@@ -55,27 +55,23 @@ if  [ "${OS_NAME}" = "Fedora Linux" ]; then
     UPDATE_GRUB_CMD="grub2-mkconfig -o /boot/grub2/grub.cfg"
 fi
 
-echo "Exiting..."
-exit 0
-
-
-# create a directory for any backups
-echo "Checking for ${BACKUP_PATH}"
-if [ ! -d ${BACKUP_PATH} ]; then
-    echo "Backup directory not found. Creating now."
-    mkdir ${BACKUP_PATH}
-fi
-
-# https://itsfoss.com/fedora-dark-mode/
-gsettings set org.gnome.desktop.interface gtk-theme Adwaita-dark
+# https://itsfoss.com/fedora-dark-mode/ - not needed anymore on Fedora 40
+#gsettings set org.gnome.desktop.interface gtk-theme Adwaita-dark
 #gsettings set org.gnome.desktop.interface gtk-theme Yaru-dark
+
+# fedora 40 dark
+echo "Setting Dark Mode"
+gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 
 gsettings set org.gnome.settings-daemon.plugins.media-keys screen-brightness-down "['Launch5']"
 gsettings set org.gnome.settings-daemon.plugins.media-keys screen-brightness-up "['Launch6']"
 gsettings set org.gnome.settings-daemon.plugins.media-keys suspend "['<Alt><Super>Eject']"
 
+echo "Exiting..."
+exit 0
+
 echo
-echo "Running: ${PACKAGE_MANAGER_BIN} ${PACKAGE_MANAGER_UPDATE_CMD}"
+echo "Running package updates: ${PACKAGE_MANAGER_BIN} ${PACKAGE_MANAGER_UPDATE_CMD}"
 echo
 sudo ${PACKAGE_MANAGER_BIN} ${PACKAGE_MANAGER_UPDATE_CMD}
 #sudo apt update -y && sudo apt upgrade -y && sudo apt autoremove -y
@@ -171,6 +167,13 @@ exit 0
 
 
 # modify grub via: https://github.com/T-vK/MobilePassThrough/blob/master/utils/Ubuntu/21.04/kernel-param-utils
+
+# create a directory for any backups
+echo "Checking for ${BACKUP_PATH}"
+if [ ! -d ${BACKUP_PATH} ]; then
+    echo "Backup directory not found. Creating now."
+    mkdir ${BACKUP_PATH}
+fi
 
 GRUB_UPDATE_REQUIRED=0
 cp ${GRUB_CFG_PATH} "${BACKUP_PATH}/grub_$(date +%Y%m%d_%H%M%S)"
