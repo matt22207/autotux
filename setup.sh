@@ -26,10 +26,8 @@ PACKAGE_MANAGER_UPDATE_CMD="update -y && sudo apt upgrade -y && sudo apt autorem
 
 # OS Detection: https://github.com/T-vK/MobilePassThrough/blob/unattended-win-install/scripts/utils/common/tools/distro-info
 
-exit 0
-
 if [ -f /etc/os-release ]; then
-    # Arch, freedesktop.org and systemd
+    # Arch, fedora, freedesktop.org and systemd
     . /etc/os-release
     OS_NAME=$NAME
     OS_ID_LIKE=$ID_LIKE
@@ -47,6 +45,10 @@ if  [ "${OS_ID_LIKE}" = "arch" ]; then
     #PACKAGE_MANAGER_SEARCH_CMD="-Ss"
     UPDATE_GRUB_CMD="grub-mkconfig -o /boot/grub/grub.cfg"
 fi
+
+echo "Exiting..."
+exit 0
+
 
 # create a directory for any backups
 echo "Checking for ${BACKUP_PATH}"
