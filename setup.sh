@@ -46,6 +46,15 @@ if  [ "${OS_ID_LIKE}" = "arch" ]; then
     UPDATE_GRUB_CMD="grub-mkconfig -o /boot/grub/grub.cfg"
 fi
 
+if  [ "${OS_NAME}" = "Fedora Linux" ]; then
+    echo "Found ${OS_NAME}!"
+
+    PACKAGE_MANAGER_BIN="dnf"
+    PACKAGE_MANAGER_INSTALL_CMD="install -y"
+    PACKAGE_MANAGER_UPDATE_CMD="upgrade -y && sudo ${PACKAGE_MANAGER_BIN} autoremove -y"
+    UPDATE_GRUB_CMD="grub2-mkconfig -o /boot/grub2/grub.cfg"
+fi
+
 echo "Exiting..."
 exit 0
 
@@ -68,7 +77,7 @@ gsettings set org.gnome.settings-daemon.plugins.media-keys suspend "['<Alt><Supe
 echo
 echo "Running: ${PACKAGE_MANAGER_BIN} ${PACKAGE_MANAGER_UPDATE_CMD}"
 echo
-${PACKAGE_MANAGER_BIN} ${PACKAGE_MANAGER_UPDATE_CMD}
+sudo ${PACKAGE_MANAGER_BIN} ${PACKAGE_MANAGER_UPDATE_CMD}
 #sudo apt update -y && sudo apt upgrade -y && sudo apt autoremove -y
 #sudo apt full-upgrade
 
