@@ -26,6 +26,8 @@ PACKAGE_MANAGER_UPDATE_CMD="update -y && sudo apt upgrade -y && sudo apt autorem
 
 # OS Detection: https://github.com/T-vK/MobilePassThrough/blob/unattended-win-install/scripts/utils/common/tools/distro-info
 
+exit 0
+
 if [ -f /etc/os-release ]; then
     # Arch, freedesktop.org and systemd
     . /etc/os-release
