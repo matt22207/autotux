@@ -67,15 +67,15 @@ gsettings set org.gnome.settings-daemon.plugins.media-keys screen-brightness-dow
 gsettings set org.gnome.settings-daemon.plugins.media-keys screen-brightness-up "['Launch6']"
 gsettings set org.gnome.settings-daemon.plugins.media-keys suspend "['<Alt><Super>Eject']"
 
-echo "Exiting..."
-exit 0
-
 echo
 echo "Running package updates: ${PACKAGE_MANAGER_BIN} ${PACKAGE_MANAGER_UPDATE_CMD}"
 echo
 sudo ${PACKAGE_MANAGER_BIN} ${PACKAGE_MANAGER_UPDATE_CMD}
 #sudo apt update -y && sudo apt upgrade -y && sudo apt autoremove -y
 #sudo apt full-upgrade
+
+echo "Exiting..."
+exit 0
 
 PACKAGES+="gnome-tweaks neofetch git net-tools htop timeshift deja-dup flatpak firefox chrome-gnome-shell screen nvidia-settings mangohud goverlay "
 if  [ "${OS_ID_LIKE}" = "arch" ]; then
