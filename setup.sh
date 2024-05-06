@@ -81,10 +81,7 @@ if  [ "${OS_NAME}" = "Fedora Linux" ]; then
     sudo ${PACKAGE_MANAGER_BIN} ${PACKAGE_MANAGER_AUTOREMOVE_CMD}
 fi
 
-echo "Exiting..."
-exit 0
-
-PACKAGES+="gnome-tweaks neofetch git net-tools htop timeshift deja-dup flatpak firefox chrome-gnome-shell screen nvidia-settings mangohud goverlay "
+PACKAGES+="gnome-tweaks neofetch git net-tools htop timeshift flatpak firefox gnome-browser-connector screen nvidia-settings mangohud goverlay "
 if  [ "${OS_ID_LIKE}" = "arch" ]; then
     PACKAGES+="sysstat python-pip veracrypt lutris protonup protonup-qt gamemode baobab "
     # Setup libvirt for Single GPU Passhthrough - https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/4)-Configuring-of-Libvirt
@@ -105,7 +102,29 @@ if  [ "${OS_ID_LIKE}" = "arch" ]; then
     # KVM thin provisioning tools, virt-sparsify - https://www.certdepot.net/kvm-thin-provisioning-tip/
     # TODO SINCE BROKEN: PACKAGES+="guestfs-tools "
     # TODO possibly virtio-win qemu-guest-agent needed for auto suspend
-else
+elif [ "${OS_NAME}" = "Fedora Linux" ]; then
+    PACKAGES+="sysstat python3-pip lutris gamemode baobab "
+    # Setup libvirt for Single GPU Passhthrough - https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/4)-Configuring-of-Libvirt
+    #TODO PACKAGES+="virt-manager qemu vde2 dnsmasq bridge-utils ovmf iptables-nft nftables ebtables "
+    # setup wine dependencies : https://github.com/lutris/docs/blob/master/WineDependencies.md
+    # TODO PACKAGES+="wine giflib lib32-giflib libpng lib32-libpng libldap lib32-libldap gnutls lib32-gnutls mpg123 lib32-mpg123 openal lib32-openal v4l-utils lib32-v4l-utils libpulse lib32-libpulse libgpg-error lib32-libgpg-error alsa-plugins lib32-alsa-plugins alsa-lib lib32-alsa-lib libjpeg-turbo lib32-libjpeg-turbo sqlite lib32-sqlite libxcomposite lib32-libxcomposite libxinerama lib32-libgcrypt libgcrypt lib32-libxinerama ncurses lib32-ncurses opencl-icd-loader lib32-opencl-icd-loader libxslt lib32-libxslt libva lib3vgiflib lib32-giflib libpng lib32-libpng libldap lib32-libldap gnutls lib32-gnutls mpg123 lib32-mpg123 openal lib32-openal v4l-utils lib32-v4l-utils libpulse lib32-libpulse libgpg-error lib32-libgpg-error alsa-plugins lib32-alsa-plugins alsa-lib lib32-alsa-lib libjpeg-turbo lib32-libjpeg-turbo sqlite lib32-sqlite libxcomposite lib32-libxcomposite libxinerama lib32-libgcrypt libgcrypt lib32-libxinerama ncurses lib32-ncurses opencl-icd-loader lib32-opencl-icd-loader libxslt lib32-libxslt libva lib32-libva gtk3 lib32-gtk3 gst-plugins-base-libs lib32-gst-plugins-base-libs vulkan-icd-loader lib32-vulkan-icd-loader "
+    # TODO PACKAGES+="wine-gecko wine-mono lib32-nvidia-utils moonlight-qt "
+    # GreenWithEnvy - nvidia stats - https://www.flathub.org/apps/details/com.leinardi.gwe
+    # TODO PACKAGES+="gwe "
+    # Steam video decoding - https://wiki.archlinux.org/title/Hardware_video_acceleration
+    # TODO yay -S nvidia-utils nvidia-vaapi-driver libvdpau-va-gl vdpauinfo libva-utils
+    PACKAGES+="libvdpau-va-gl vdpauinfo libva-utils"
+    vainfo
+
+    # optional productivity apps
+    #PACKAGES+="zoom slack-desktop dropbox dropbox-cli maestral maestral-qt sparsebundlefs "
+
+    # KVM thin provisioning tools, virt-sparsify - https://www.certdepot.net/kvm-thin-provisioning-tip/
+    # TODO SINCE BROKEN: PACKAGES+="guestfs-tools "
+    # TODO possibly virtio-win qemu-guest-agent needed for auto suspend
+
+    #TODO veracrypt protonup protonup-qt
+elif [ "${OS_NAME}" = "Ubuntu" ]; then
     # https://flatpak.org/setup/Ubuntu/
     PACKAGES+="flatpak gnome-software-plugin-flatpak "
     PACKAGES+="systat python3-pip openssh-server "
@@ -123,8 +142,12 @@ fi
 PACKAGES+="cockpit cockpit-machines cockpit-pcp nvtop packagekit gnome-packagekit "
 
 echo
-echo "Running: ${PACKAGE_MANAGER_BIN} ${PACKAGE_MANAGER_INSTALL_CMD} ${PACKAGES}"
+echo "Installing packages: ${PACKAGE_MANAGER_BIN} ${PACKAGE_MANAGER_INSTALL_CMD} ${PACKAGES}"
 echo
+
+echo "Exiting..."
+exit 0
+
 ${PACKAGE_MANAGER_BIN} ${PACKAGE_MANAGER_INSTALL_CMD} ${PACKAGES}
 
 #sudo apt install -y $PACKAGES
@@ -164,6 +187,8 @@ fi
 
 flatpak install -y com.mattjakeman.ExtensionManager
 flatpak install -y net.cozic.joplin_desktop
+flatpak install -y org.gnome.DejaDup
+flatpak install -y ca.desrt.dconf-editor
 
 exit 0
 
