@@ -103,7 +103,7 @@ if  [ "${OS_ID_LIKE}" = "arch" ]; then
     # TODO SINCE BROKEN: PACKAGES+="guestfs-tools "
     # TODO possibly virtio-win qemu-guest-agent needed for auto suspend
 elif [ "${OS_NAME}" = "Fedora Linux" ]; then
-    PACKAGES+="sysstat python3-pip lutris gamemode baobab "
+    PACKAGES+="sysstat python3-pip lutris gamemode baobab PackageKit "
     # Setup libvirt for Single GPU Passhthrough - https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/4)-Configuring-of-Libvirt
     #TODO PACKAGES+="virt-manager qemu vde2 dnsmasq bridge-utils ovmf iptables-nft nftables ebtables "
     # setup wine dependencies : https://github.com/lutris/docs/blob/master/WineDependencies.md
@@ -113,7 +113,7 @@ elif [ "${OS_NAME}" = "Fedora Linux" ]; then
     # TODO PACKAGES+="gwe "
     # Steam video decoding - https://wiki.archlinux.org/title/Hardware_video_acceleration
     # TODO yay -S nvidia-utils nvidia-vaapi-driver libvdpau-va-gl vdpauinfo libva-utils
-    PACKAGES+="libvdpau-va-gl vdpauinfo libva-utils"
+    PACKAGES+="libvdpau-va-gl vdpauinfo libva-utils "
     vainfo
 
     # optional productivity apps
@@ -126,7 +126,7 @@ elif [ "${OS_NAME}" = "Fedora Linux" ]; then
     #TODO veracrypt protonup protonup-qt
 elif [ "${OS_NAME}" = "Ubuntu" ]; then
     # https://flatpak.org/setup/Ubuntu/
-    PACKAGES+="flatpak gnome-software-plugin-flatpak "
+    PACKAGES+="flatpak gnome-software-plugin-flatpak packagekit "
     PACKAGES+="systat python3-pip openssh-server "
     PACKAGES+="nvidia-driver-470 nvidia-utils-470 "
     # KVM thin provisioning tools, virt-sparsify - https://www.certdepot.net/kvm-thin-provisioning-tip/
@@ -139,7 +139,7 @@ fi
 # TODO: remove xserver-xorg-video-nouveau
 
 # https://cockpit-project.org/running.html#ubuntu
-PACKAGES+="cockpit cockpit-machines cockpit-pcp nvtop packagekit gnome-packagekit "
+PACKAGES+="cockpit cockpit-machines cockpit-pcp nvtop gnome-packagekit "
 
 echo
 echo "Installing packages: ${PACKAGE_MANAGER_BIN} ${PACKAGE_MANAGER_INSTALL_CMD} ${PACKAGES}"
