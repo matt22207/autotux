@@ -114,7 +114,6 @@ elif [ "${OS_NAME}" = "Fedora Linux" ]; then
     # Steam video decoding - https://wiki.archlinux.org/title/Hardware_video_acceleration
     # TODO yay -S nvidia-utils nvidia-vaapi-driver libvdpau-va-gl vdpauinfo libva-utils
     PACKAGES+="libvdpau-va-gl vdpauinfo libva-utils "
-    vainfo
 
     # optional productivity apps
     #PACKAGES+="zoom slack-desktop dropbox dropbox-cli maestral maestral-qt sparsebundlefs "
@@ -146,6 +145,8 @@ echo "Installing packages: ${PACKAGE_MANAGER_BIN} ${PACKAGE_MANAGER_INSTALL_CMD}
 echo
 
 sudo ${PACKAGE_MANAGER_BIN} ${PACKAGE_MANAGER_INSTALL_CMD} ${PACKAGES}
+
+vainfo
 
 echo "Exiting..."
 exit 0
