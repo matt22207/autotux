@@ -81,7 +81,7 @@ if  [ "${OS_NAME}" = "Fedora Linux" ]; then
     sudo ${PACKAGE_MANAGER_BIN} ${PACKAGE_MANAGER_AUTOREMOVE_CMD}
 fi
 
-PACKAGES+="gnome-tweaks neofetch git net-tools htop timeshift flatpak firefox gnome-browser-connector screen nvidia-settings mangohud goverlay "
+PACKAGES+="gnome-tweaks neofetch git net-tools htop timeshift flatpak firefox gnome-browser-connector screen nvidia-settings mangohud goverlay openssh-server "
 if  [ "${OS_ID_LIKE}" = "arch" ]; then
     PACKAGES+="sysstat python-pip veracrypt lutris protonup protonup-qt gamemode baobab "
     # Setup libvirt for Single GPU Passhthrough - https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/4)-Configuring-of-Libvirt
@@ -197,6 +197,12 @@ flatpak install -y ${DEFAULT_FLATPAK_REMOTE} org.gnome.DejaDup
 flatpak install -y ${DEFAULT_FLATPAK_REMOTE} ca.desrt.dconf-editor
 flatpak update -y
 
+echo
+echo "Enabled OpenSSH Server"
+sudo systemctl enable sshd
+sudo systemctl start sshd
+sudo systemctl status sshd
+echo
 echo "Exiting..."
 exit 0
 
