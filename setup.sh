@@ -51,7 +51,8 @@ if  [ "${OS_NAME}" = "Fedora Linux" ]; then
 
     PACKAGE_MANAGER_BIN="dnf"
     PACKAGE_MANAGER_INSTALL_CMD="install -y"
-    PACKAGE_MANAGER_UPDATE_CMD="upgrade -y && sudo ${PACKAGE_MANAGER_BIN} autoremove -y"
+    PACKAGE_MANAGER_UPDATE_CMD="upgrade -y"
+    PACKAGE_MANAGER_AUTOREMOVE_CMD="autoremove -y"
     UPDATE_GRUB_CMD="grub2-mkconfig -o /boot/grub2/grub.cfg"
 fi
 
@@ -73,6 +74,12 @@ echo
 sudo ${PACKAGE_MANAGER_BIN} ${PACKAGE_MANAGER_UPDATE_CMD}
 #sudo apt update -y && sudo apt upgrade -y && sudo apt autoremove -y
 #sudo apt full-upgrade
+if  [ "${OS_NAME}" = "Fedora Linux" ]; then
+    echo
+    echo "Running package autoremove: ${PACKAGE_MANAGER_BIN} ${PACKAGE_MANAGER_AUTOREMOVE_CMD}"
+    echo
+    sudo ${PACKAGE_MANAGER_BIN} ${PACKAGE_MANAGER_AUTOREMOVE_CMD}
+fi
 
 echo "Exiting..."
 exit 0
