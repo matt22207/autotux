@@ -103,7 +103,7 @@ if  [ "${OS_ID_LIKE}" = "arch" ]; then
     # TODO SINCE BROKEN: PACKAGES+="guestfs-tools "
     # TODO possibly virtio-win qemu-guest-agent needed for auto suspend
 elif [ "${OS_NAME}" = "Fedora Linux" ]; then
-    PACKAGES+="sysstat python3-pip lutris gamemode baobab PackageKit "
+    PACKAGES+="sysstat python3-pip lutris gamemode baobab PackageKit barrier "
     # Setup libvirt for Single GPU Passhthrough - https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/4)-Configuring-of-Libvirt
     #TODO PACKAGES+="virt-manager qemu vde2 dnsmasq bridge-utils ovmf iptables-nft nftables ebtables "
     # setup wine dependencies : https://github.com/lutris/docs/blob/master/WineDependencies.md
@@ -148,9 +148,6 @@ sudo ${PACKAGE_MANAGER_BIN} ${PACKAGE_MANAGER_INSTALL_CMD} ${PACKAGES}
 
 vainfo
 
-echo "Exiting..."
-exit 0
-
 #sudo apt install -y $PACKAGES
 
 #TODO: set default virsh connection: https://rabexc.org/posts/libvirt-default-url
@@ -164,7 +161,10 @@ if  [ "${OS_ID_LIKE}" = "arch" ]; then
     mkdir -p ~/.local/share/barrier/SSL/Fingerprints
     openssl req -x509 -nodes -days 365 -subj /CN=Barrier -newkey rsa:4096 -keyout ~/.local/share/barrier/SSL/Barrier.pem -out ~/.local/share/barrier/SSL/Barrier.pem
     openssl x509 -fingerprint -sha1 -noout -in ~/.local/share/barrier/SSL/Barrier.pem > ~/.local/share/barrier/SSL/Fingerprints/Local.txt
-else
+elif [ "${OS_NAME}" = "Fedora Linux" ]; then
+    wget "https://launchpad.net/veracrypt/trunk/1.26.7/+download/veracrypt-1.26.7-CentOS-8-x86_64.rpm"  -O /tmp/veracrypt-1.26.7-CentOS-8-x86_64.rpm
+    sudo dnf install /tmp/veracrypt-1.26.7-CentOS-8-x86_64.rpm
+elif [ "${OS_NAME}" = "Ubuntu" ]; then
     wget "https://launchpad.net/veracrypt/trunk/1.24-update7/+download/veracrypt-1.24-Update7-Ubuntu-21.10-amd64.deb" -O /tmp/veracrypt-1.24-Update7-Ubuntu-21.10-amd64.deb
     sudo apt install /tmp/veracrypt-1.24-Update7-Ubuntu-21.10-amd64.deb
     sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
@@ -186,11 +186,14 @@ else
 
 fi
 
+flatpak install -y flathub com.github.tchx84.Flatseal
 flatpak install -y com.mattjakeman.ExtensionManager
 flatpak install -y net.cozic.joplin_desktop
 flatpak install -y org.gnome.DejaDup
 flatpak install -y ca.desrt.dconf-editor
+flatpak update -y
 
+echo "Exiting..."
 exit 0
 
 ## PAUSE HERE TO REBOOT
