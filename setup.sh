@@ -186,11 +186,15 @@ elif [ "${OS_NAME}" = "Ubuntu" ]; then
 
 fi
 
+DEFAULT_FLATPAK_REMOTE="flathub"
+if [ "${OS_NAME}" = "Fedora Linux" ]; then
+    DEFAULT_FLATPAK_REMOTE="fedora"
+fi
 flatpak install -y flathub com.github.tchx84.Flatseal
 flatpak install -y com.mattjakeman.ExtensionManager
 flatpak install -y net.cozic.joplin_desktop
-flatpak install -y org.gnome.DejaDup
-flatpak install -y ca.desrt.dconf-editor
+flatpak install -y ${DEFAULT_FLATPAK_REMOTE} org.gnome.DejaDup
+flatpak install -y ${DEFAULT_FLATPAK_REMOTE} ca.desrt.dconf-editor
 flatpak update -y
 
 echo "Exiting..."
