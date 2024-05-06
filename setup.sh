@@ -163,7 +163,7 @@ if  [ "${OS_ID_LIKE}" = "arch" ]; then
     openssl x509 -fingerprint -sha1 -noout -in ~/.local/share/barrier/SSL/Barrier.pem > ~/.local/share/barrier/SSL/Fingerprints/Local.txt
 elif [ "${OS_NAME}" = "Fedora Linux" ]; then
     wget "https://launchpad.net/veracrypt/trunk/1.26.7/+download/veracrypt-1.26.7-CentOS-8-x86_64.rpm"  -O /tmp/veracrypt-1.26.7-CentOS-8-x86_64.rpm
-    sudo dnf install /tmp/veracrypt-1.26.7-CentOS-8-x86_64.rpm
+    sudo dnf install -y /tmp/veracrypt-1.26.7-CentOS-8-x86_64.rpm
 elif [ "${OS_NAME}" = "Ubuntu" ]; then
     wget "https://launchpad.net/veracrypt/trunk/1.24-update7/+download/veracrypt-1.24-Update7-Ubuntu-21.10-amd64.deb" -O /tmp/veracrypt-1.24-Update7-Ubuntu-21.10-amd64.deb
     sudo apt install /tmp/veracrypt-1.24-Update7-Ubuntu-21.10-amd64.deb
@@ -201,6 +201,7 @@ exit 0
 # TODO : Grub font size
 # https://vietlq.github.io/2019/09/22/make-grub-font-size-bigger/
 
+# BELOW HERE IS FOR VM's ONLY
 
 # modify grub via: https://github.com/T-vK/MobilePassThrough/blob/master/utils/Ubuntu/21.04/kernel-param-utils
 
