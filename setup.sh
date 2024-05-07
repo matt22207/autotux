@@ -51,7 +51,7 @@ if  [ "${OS_NAME}" = "Fedora Linux" ]; then
 
     PACKAGE_MANAGER_BIN="dnf"
     PACKAGE_MANAGER_INSTALL_CMD="install -y"
-    PACKAGE_MANAGER_UPDATE_CMD="upgrade -y"
+    PACKAGE_MANAGER_UPDATE_CMD="upgrade --refresh -y"
     PACKAGE_MANAGER_AUTOREMOVE_CMD="autoremove -y"
     UPDATE_GRUB_CMD="grub2-mkconfig -o /boot/grub2/grub.cfg"
 fi
@@ -103,7 +103,7 @@ if  [ "${OS_ID_LIKE}" = "arch" ]; then
     # TODO SINCE BROKEN: PACKAGES+="guestfs-tools "
     # TODO possibly virtio-win qemu-guest-agent needed for auto suspend
 elif [ "${OS_NAME}" = "Fedora Linux" ]; then
-    PACKAGES+="sysstat python3-pip lutris gamemode baobab PackageKit barrier "
+    PACKAGES+="sysstat python3-pip lutris gamemode baobab PackageKit barrier steam steam-devices "
     # Setup libvirt for Single GPU Passhthrough - https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/4)-Configuring-of-Libvirt
     #TODO PACKAGES+="virt-manager qemu vde2 dnsmasq bridge-utils ovmf iptables-nft nftables ebtables "
     # setup wine dependencies : https://github.com/lutris/docs/blob/master/WineDependencies.md
@@ -195,6 +195,7 @@ flatpak install -y com.mattjakeman.ExtensionManager
 flatpak install -y net.cozic.joplin_desktop
 flatpak install -y ${DEFAULT_FLATPAK_REMOTE} org.gnome.DejaDup
 flatpak install -y ${DEFAULT_FLATPAK_REMOTE} ca.desrt.dconf-editor
+#sudo flatpak install -y flathub com.valvesoftware.Steam
 flatpak update -y
 
 echo
