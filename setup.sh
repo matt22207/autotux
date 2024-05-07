@@ -204,6 +204,7 @@ sudo systemctl enable sshd
 sudo systemctl start sshd
 sudo systemctl status sshd
 echo
+echo "Note, may need to disable Accelerated Web View in Steam to prevent crashes in Discrete GPU mode when launching steam itself with DRI_PRIME=1"
 echo "Exiting..."
 exit 0
 
