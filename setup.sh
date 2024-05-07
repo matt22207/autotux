@@ -167,12 +167,6 @@ elif [ "${OS_NAME}" = "Fedora Linux" ]; then
 elif [ "${OS_NAME}" = "Ubuntu" ]; then
     wget "https://launchpad.net/veracrypt/trunk/1.24-update7/+download/veracrypt-1.24-Update7-Ubuntu-21.10-amd64.deb" -O /tmp/veracrypt-1.24-Update7-Ubuntu-21.10-amd64.deb
     sudo apt install /tmp/veracrypt-1.24-Update7-Ubuntu-21.10-amd64.deb
-    sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-    sudo flatpak update -y
-    sudo flatpak install -y flathub org.gnome.Extensions
-
-    # https://itsfoss.com/flatseal/
-    sudo flatpak install -y flathub com.github.tchx84.Flatseal
 
     sudo snap refresh
     # latest barrier is in snap. doesn't support Wayland yet
@@ -190,6 +184,7 @@ DEFAULT_FLATPAK_REMOTE="flathub"
 if [ "${OS_NAME}" = "Fedora Linux" ]; then
     DEFAULT_FLATPAK_REMOTE="fedora"
 fi
+sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 flatpak install -y flathub com.github.tchx84.Flatseal
 flatpak install -y com.mattjakeman.ExtensionManager
 flatpak install -y net.cozic.joplin_desktop
