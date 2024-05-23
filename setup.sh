@@ -190,6 +190,7 @@ flatpak install -y com.mattjakeman.ExtensionManager
 flatpak install -y net.cozic.joplin_desktop
 flatpak install -y ${DEFAULT_FLATPAK_REMOTE} org.gnome.DejaDup
 flatpak install -y ${DEFAULT_FLATPAK_REMOTE} ca.desrt.dconf-editor
+flatpak install -y com.slack.Slack
 #sudo flatpak install -y flathub com.valvesoftware.Steam
 flatpak update -y
 
