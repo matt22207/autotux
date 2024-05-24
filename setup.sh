@@ -103,7 +103,7 @@ if  [ "${OS_ID_LIKE}" = "arch" ]; then
     # TODO SINCE BROKEN: PACKAGES+="guestfs-tools "
     # TODO possibly virtio-win qemu-guest-agent needed for auto suspend
 elif [ "${OS_NAME}" = "Fedora Linux" ]; then
-    PACKAGES+="sysstat python3-pip lutris gamemode baobab PackageKit barrier steam steam-devices "
+    PACKAGES+="sysstat python3-pip lutris gamemode baobab PackageKit barrier steam steam-devices syncthing "
     # Setup libvirt for Single GPU Passhthrough - https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/4)-Configuring-of-Libvirt
     #TODO PACKAGES+="virt-manager qemu vde2 dnsmasq bridge-utils ovmf iptables-nft nftables ebtables "
     # setup wine dependencies : https://github.com/lutris/docs/blob/master/WineDependencies.md
