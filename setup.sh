@@ -191,8 +191,22 @@ flatpak install -y net.cozic.joplin_desktop
 flatpak install -y ${DEFAULT_FLATPAK_REMOTE} org.gnome.DejaDup
 flatpak install -y ${DEFAULT_FLATPAK_REMOTE} ca.desrt.dconf-editor
 flatpak install -y com.slack.Slack
+flatpak install -y com.dropbox.Client
 #sudo flatpak install -y flathub com.valvesoftware.Steam
 flatpak update -y
+
+if sudo dmidecode -t system | grep "Manufacturer" | grep "ASUSTeK"; then
+  echo
+  echo "Installing ASUS Linux Utils"
+  echo
+  sudo dnf copr -y enable lukenukem/asus-linux
+  sudo dnf update -y
+  sudo dnf install -y asusctl supergfxctl
+  sudo dnf update --refresh
+  sudo systemctl enable supergfxd.service
+  sudo systemctl start supergfxd.service
+  sudo dnf install -y asusctl-rog-gui
+fi
 
 echo
 echo "Enabled OpenSSH Server"
