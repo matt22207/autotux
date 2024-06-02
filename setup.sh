@@ -186,6 +186,8 @@ if [ "${OS_NAME}" = "Fedora Linux" ]; then
 fi
 sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 flatpak install -y flathub com.github.tchx84.Flatseal
+flatpak install -y io.github.flattool.Warehouse
+flatpak install -y io.github.giantpinkrobots.flatsweep
 flatpak install -y com.mattjakeman.ExtensionManager
 flatpak install -y net.cozic.joplin_desktop
 flatpak install -y ${DEFAULT_FLATPAK_REMOTE} org.gnome.DejaDup
