@@ -180,9 +180,9 @@ elif [ "${OS_NAME}" = "Ubuntu" ]; then
 
 fi
 
-DEFAULT_FLATPAK_REMOTE="flathub"
+CUSTOM_FLATPAK_REMOTE="flathub"
 if [ "${OS_NAME}" = "Fedora Linux" ]; then
-    DEFAULT_FLATPAK_REMOTE="fedora"
+    CUSTOM_FLATPAK_REMOTE="fedora"
 fi
 sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 flatpak install -y flathub com.github.tchx84.Flatseal
@@ -190,8 +190,8 @@ flatpak install -y io.github.flattool.Warehouse
 flatpak install -y io.github.giantpinkrobots.flatsweep
 flatpak install -y com.mattjakeman.ExtensionManager
 flatpak install -y net.cozic.joplin_desktop
-flatpak install -y ${DEFAULT_FLATPAK_REMOTE} org.gnome.DejaDup
-flatpak install -y ${DEFAULT_FLATPAK_REMOTE} ca.desrt.dconf-editor
+flatpak install -y ${CUSTOM_FLATPAK_REMOTE} org.gnome.DejaDup
+flatpak install -y ${CUSTOM_FLATPAK_REMOTE} ca.desrt.dconf-editor
 flatpak install -y com.slack.Slack
 flatpak install -y com.dropbox.Client
 #sudo flatpak install -y flathub com.valvesoftware.Steam
