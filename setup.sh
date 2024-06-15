@@ -194,6 +194,7 @@ flatpak install -y ${CUSTOM_FLATPAK_REMOTE} org.gnome.DejaDup
 flatpak install -y ${CUSTOM_FLATPAK_REMOTE} ca.desrt.dconf-editor
 flatpak install -y com.slack.Slack
 flatpak install -y com.dropbox.Client
+flatpak install -y io.missioncenter.MissionCenter
 #sudo flatpak install -y flathub com.valvesoftware.Steam
 flatpak update -y
 
