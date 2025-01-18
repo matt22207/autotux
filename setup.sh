@@ -10,6 +10,8 @@
 #
 # TODO add execution bit to setup.sh
 # You can find package mappings for different distros here: https://pkgs.org/
+#
+# TODO: Add LACT GPU monitor: https://copr.fedorainfracloud.org/coprs/ilyaz/LACT/
 
 BACKUP_PATH=~/.setup_backups
 GRUB_CFG_PATH=/etc/default/grub
